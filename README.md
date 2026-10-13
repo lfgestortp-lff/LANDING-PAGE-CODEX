@@ -1,6 +1,6 @@
-# Landing page da seletiva
+# Landing page da seletiva de modelos 45+
 
-Página estática em HTML, CSS e JavaScript, sem dependências de produção ou build.
+Página estática em HTML, CSS e JavaScript, sem dependências de produção ou build. Público: mulheres a partir dos 45 anos. Estrutura do modelo preservada, com fundo ameixa, detalhes champagne, textos maiores e botão verde pulsante. A idade não é bloqueada automaticamente; o foco 45+ é comunicado na copy.
 
 ## Desenvolvimento
 

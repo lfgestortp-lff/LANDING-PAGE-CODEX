@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Inscreva-se para receber informações sobre a próxima seletiva.">
-  <title>Inscrição para a seletiva</title>
+  <meta name="description" content="Seletiva de modelos para mulheres a partir dos 45 anos. Faça sua inscrição gratuita e conheça os próximos passos.">
+  <title>Seletiva de modelos para mulheres 45+ | Inscrição gratuita</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
   <main class="layout">
     <section class="intro" aria-labelledby="title">
-      <p class="eyebrow">FAÇA SUA INSCRIÇÃO</p>
-      <h1 id="title">O primeiro passo<br>para o seu <span>futuro</span></h1>
-      <p class="description">Inscreva-se na nossa próxima seletiva e garanta sua vaga para avaliação. As vagas são limitadas por estado e faixa etária.</p>
+      <p class="eyebrow">SELETIVA DE MODELOS · MULHERES 45+</p>
+      <h1 id="title">Sua história<br>merece <span>destaque</span></h1>
+      <p class="description">Uma seletiva dedicada a mulheres a partir dos 45 anos. Inscreva-se gratuitamente para conhecer a proposta da agência e os próximos passos.</p>
       <div class="deadline" aria-label="Contagem regressiva para inscrição">
         <p class="deadline-label" id="countdown-label">AS VAGAS ENCERRAM EM:</p>
         <div class="countdown" aria-hidden="true">
@@ -23,33 +23,33 @@
         </div>
       </div>
       <ul class="benefits">
-        <li><span aria-hidden="true">✓</span> Avaliação profissional gratuita</li>
-        <li><span aria-hidden="true">✓</span> Possibilidade de encaminhamento imediato</li>
-        <li><span aria-hidden="true">✓</span> Acesso ao suporte técnico e aulas preparatórias</li>
+        <li><span aria-hidden="true">✓</span> Inscrição gratuita na seletiva</li>
+        <li><span aria-hidden="true">✓</span> Uma agência focada em mulheres 45+</li>
+        <li><span aria-hidden="true">✓</span> Contato direto com a equipe da agência</li>
       </ul>
     </section>
     <section class="card" aria-labelledby="form-title">
-      <h2 id="form-title" class="form-heading">FAÇA SUA INSCRIÇÃO</h2>
+      <h2 id="form-title" class="form-heading">INSCREVA-SE NA SELETIVA 45+</h2>
       <form id="lead-form">
         <label for="name">NOME COMPLETO</label>
         <input id="name" name="nome" autocomplete="name" placeholder="Digite seu nome completo" minlength="3" maxlength="150" required>
         <div class="fields">
           <div><label for="phone">NÚMERO DE TELEFONE</label><input id="phone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="Ex: 1998847873" aria-describedby="phone-help" required></div>
-          <div><label for="age">IDADE</label><input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="Ex: 18" required></div>
+          <div><label for="age">IDADE</label><input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="Ex: 55" required></div>
         </div>
-        <p id="phone-help" class="hint">Inclua o DDD se puder. Ele é opcional.</p>
-        <label class="check"><input id="contact-consent" type="checkbox" required><span>Autorizo o uso dos meus dados para receber contato sobre esta seletiva.</span></label>
+        <p id="phone-help" class="hint">Inclua o DDD se puder. Confira o número para receber nosso contato.</p>
+        <label class="check"><input id="contact-consent" type="checkbox" required><span>Autorizo a agência a usar meus dados para entrar em contato sobre esta seletiva.</span></label>
         <button type="submit" class="primary registration-cta">Inscrever-se gratuitamente <span aria-hidden="true">→</span></button>
         <p id="form-status" class="status" role="status" aria-live="polite"></p>
       </form>
-      <p class="footnote"><svg aria-hidden="true" viewBox="0 0 16 16"><path fill="currentColor" d="M4 6V4a4 4 0 0 1 8 0v2h1a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1zm2 0h4V4a2 2 0 0 0-4 0v2z"/></svg> Seus dados serão enviados à equipe responsável pela seletiva.</p>
+      <p class="footnote"><svg aria-hidden="true" viewBox="0 0 16 16"><path fill="currentColor" d="M4 6V4a4 4 0 0 1 8 0v2h1a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1zm2 0h4V4a2 2 0 0 0-4 0v2z"/></svg> Seus dados serão enviados à equipe da agência para contato sobre a seletiva.</p>
     </section>
   </main>
   <dialog id="confirmation" aria-labelledby="confirmation-title" aria-describedby="confirmation-description">
     <div class="dialog-content">
-      <p class="eyebrow">QUASE LÁ</p>
-      <h2 id="confirmation-title">Está tudo certo?</h2>
-      <p id="confirmation-description" class="subtext">Confira seus dados antes de concluir a inscrição.</p>
+      <p class="eyebrow">SEU PRÓXIMO PASSO</p>
+      <h2 id="confirmation-title">Vamos confirmar sua inscrição?</h2>
+      <p id="confirmation-description" class="subtext">Confira seu nome, idade e telefone. Assim, nossa equipe poderá entrar em contato com você.</p>
       <dl><dt>Nome completo</dt><dd id="review-name"></dd><dt>Idade</dt><dd id="review-age"></dd><dt>Telefone</dt><dd id="review-phone"></dd></dl>
       <p id="submit-status" class="status" role="status" aria-live="polite"></p>
       <button id="confirm-submit" class="primary" type="button">CONFIRMAR E ENVIAR <span aria-hidden="true">→</span></button>
