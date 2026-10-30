@@ -128,9 +128,6 @@ body::after { opacity:.25; }
 
 .form-description { color:var(--muted); font-size:15px; line-height:1.65; margin:0 0 28px; }
 .free-note { color:var(--muted); font-size:12px; line-height:1.5; text-align:center; margin:12px 0 0; }
-.agency-link { color:var(--accent); font-size:14px; line-height:1.5; text-align:center; margin-top:24px; text-underline-offset:4px; }
-.agency-link:hover { color:var(--accent-light); }
-.agency-link:focus-visible { outline:2px solid var(--focus); outline-offset:4px; }
 .registration-steps { margin-top:26px; }
 .registration-steps .deadline-label { margin-bottom:20px; }
 .registration-steps ol { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
@@ -138,3 +135,24 @@ body::after { opacity:.25; }
 .registration-steps strong { color:var(--accent); font-family:Montserrat,Arial,sans-serif; font-size:26px; }
 .registration-steps li span { color:var(--muted); font-size:13px; line-height:1.4; }
 @media(max-width:800px) { .form-heading { margin-bottom:12px; } .registration-steps ol { gap:12px; } }
+
+/* Keep keyboard order aligned with the form-first layout on mobile. */
+.layout > .intro { grid-column:1; grid-row:1; }
+.layout > .card { grid-column:2; grid-row:1; }
+.form-context { display:none; }
+@media(max-width:800px) {
+  .layout { padding-top:20px; }
+  .layout > .card { grid-column:1; grid-row:1; padding:24px 20px; }
+  .layout > .intro { grid-column:1; grid-row:2; }
+  .card .form-heading { font-size:22px; margin-bottom:8px; }
+  .form-context { display:block; color:var(--accent); font-size:13px; line-height:1.5; margin:0 0 22px; }
+  .card #lead-form { order:1; }
+  .card .form-description { order:2; margin:22px 0 0; font-size:14px; }
+  .card .footnote { order:3; margin-top:18px; }
+  .card .fields { margin-top:16px; gap:16px; }
+  .card .registration-cta { margin-top:22px; }
+}
+@media(max-width:380px) {
+  .card .registration-cta { padding:14px 12px; font-size:12px; gap:8px; }
+  .card .registration-cta span { display:none; }
+}

@@ -38,4 +38,8 @@ O pop-up inicial exige uma escolha. Sim libera o formulário; Não substitui a i
 
 ## Copy e confiança
 
-Público, gratuidade da inscrição e Piracicaba são informados logo na primeira tela. A página explica a confirmação e o contato posterior pelo WhatsApp informado e inclui o Instagram oficial. A agência confirmou aceitação de mulheres sem experiência e contato posterior pelo WhatsApp. Não são prometidos outros serviços gratuitos. Fotos reais de trabalhos/modelos podem substituir as ilustrações quando fornecidas com autorização; não há depoimentos ou resultados inventados.
+Público, gratuidade da inscrição e Piracicaba são informados logo na primeira tela. A página explica a confirmação e o contato posterior pelo WhatsApp informado e mantém o Instagram oficial na tela de encerramento para quem não pode ir a Piracicaba. A agência confirmou aceitação de mulheres sem experiência e contato posterior pelo WhatsApp. Não são prometidos outros serviços gratuitos. Fotos reais de trabalhos/modelos podem substituir as ilustrações quando fornecidas com autorização; não há depoimentos ou resultados inventados.
+
+## Prioridade no celular
+
+Até 800px, o formulário e seu botão aparecem primeiro, com público e cidade resumidos. A explicação do contato fica depois do botão; a copy e os três passos vêm depois do cartão. No computador, a copy continua à esquerda e o formulário à direita. A ordem do HTML começa pelo formulário para acompanhar a navegação por teclado no celular. O link do Instagram foi retirado do formulário; permanece na tela mostrada ao responder Não.

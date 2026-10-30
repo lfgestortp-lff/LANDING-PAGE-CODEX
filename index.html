@@ -10,6 +10,24 @@
 </head>
 <body>
   <main class="layout" id="registration-page">
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title" class="form-heading">Sua inscrição é grátis</h2>
+      <p class="form-context">Mulheres 45+ · Presencial em Piracicaba</p>
+      <p class="form-description">Preencha seus dados e confirme a inscrição. Depois, nossa equipe entrará em contato pelo WhatsApp para explicar como funciona a seletiva.</p>
+      <form id="lead-form">
+        <label for="name">NOME COMPLETO</label>
+        <input id="name" name="nome" autocomplete="name" placeholder="Digite seu nome completo" minlength="3" maxlength="150" required>
+        <div class="fields">
+          <div><label for="phone">WHATSAPP</label><input id="phone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="Ex: 1998847873" aria-describedby="phone-help" required></div>
+          <div><label for="age">IDADE</label><input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="Ex: 55" required></div>
+        </div>
+        <p id="phone-help" class="hint">Informe seu WhatsApp. O DDD é opcional; inclua se puder.</p>
+        <button type="submit" class="primary registration-cta">Quero minha inscrição grátis <span aria-hidden="true">→</span></button>
+        <p class="free-note">A gratuidade se refere à inscrição na seletiva.</p>
+        <p id="form-status" class="status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="footnote"><svg aria-hidden="true" viewBox="0 0 16 16"><path fill="currentColor" d="M4 6V4a4 4 0 0 1 8 0v2h1a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1zm2 0h4V4a2 2 0 0 0-4 0v2z"/></svg> Seus dados serão enviados à equipe da agência para contato sobre a seletiva pelo WhatsApp.</p>
+    </section>
     <section class="intro" aria-labelledby="title">
       <p class="eyebrow">PIRACICABA · INSCRIÇÃO GRÁTIS</p>
       <h1 id="title">Seletiva de modelos<br>para <span>mulheres 45+</span></h1>
@@ -35,24 +53,6 @@
         <li><span aria-hidden="true">✓</span> Não precisa ter experiência como modelo</li>
         <li><span aria-hidden="true">✓</span> Encontro presencial em Piracicaba</li>
       </ul>
-    </section>
-    <section class="card" aria-labelledby="form-title">
-      <h2 id="form-title" class="form-heading">Sua inscrição é grátis</h2>
-      <p class="form-description">Preencha seus dados e confirme a inscrição. Depois, nossa equipe entrará em contato pelo WhatsApp para explicar como funciona a seletiva.</p>
-      <form id="lead-form">
-        <label for="name">NOME COMPLETO</label>
-        <input id="name" name="nome" autocomplete="name" placeholder="Digite seu nome completo" minlength="3" maxlength="150" required>
-        <div class="fields">
-          <div><label for="phone">WHATSAPP</label><input id="phone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="Ex: 1998847873" aria-describedby="phone-help" required></div>
-          <div><label for="age">IDADE</label><input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="Ex: 55" required></div>
-        </div>
-        <p id="phone-help" class="hint">Informe seu WhatsApp. O DDD é opcional; inclua se puder.</p>
-        <button type="submit" class="primary registration-cta">Quero minha inscrição grátis <span aria-hidden="true">→</span></button>
-        <p class="free-note">A gratuidade se refere à inscrição na seletiva.</p>
-        <p id="form-status" class="status" role="status" aria-live="polite"></p>
-      </form>
-      <a class="agency-link" href="https://instagram.com/produtoraangels" target="_blank" rel="noopener noreferrer">Conheça a Produtora Angels no Instagram</a>
-      <p class="footnote"><svg aria-hidden="true" viewBox="0 0 16 16"><path fill="currentColor" d="M4 6V4a4 4 0 0 1 8 0v2h1a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1zm2 0h4V4a2 2 0 0 0-4 0v2z"/></svg> Seus dados serão enviados à equipe da agência para contato sobre a seletiva pelo WhatsApp.</p>
     </section>
   </main>
   <section id="attendance-unavailable" class="unavailable-screen" aria-labelledby="unavailable-title" hidden>
