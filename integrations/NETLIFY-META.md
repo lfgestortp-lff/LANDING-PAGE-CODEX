@@ -14,7 +14,7 @@ No próprio Netlify, abra a configuração do projeto e adicione variáveis com 
 | `META_PIXEL_ID` | `1801282187897715` |
 | `META_TEST_EVENT_CODE` | Opcional e temporário: código da aba Testar eventos, na Meta. Remover após a validação e implantar novamente para produção. |
 
-Faça nova implantação depois de configurar as variáveis. O Netlify fornece `URL` com a origem principal do projeto; a função exige essa origem tanto no cabeçalho Origin quanto na página de origem do evento. Se mudar o domínio principal, confirme essa configuração e implante novamente.
+Faça nova implantação depois de configurar as variáveis. O Netlify fornece `URL` com a origem principal do projeto; a função permite a origem principal informada pelo Netlify e o domínio de produção `https://produtoraangels.netlify.app`, mantendo compatibilidade se a variável do Netlify estiver desatualizada após renomear o projeto. A página de origem do evento deve corresponder ao cabeçalho Origin. Se mudar o domínio principal, confirme essa configuração e implante novamente.
 
 ## Comportamento e verificação
 

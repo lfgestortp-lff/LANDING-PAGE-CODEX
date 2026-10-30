@@ -13,10 +13,10 @@ export function createHandler({ env = process.env, fetchImpl = globalThis.fetch,
       return reply(400, { ok: false, code: "INVALID_BODY" });
     }
     const headers = Object.fromEntries(Object.entries(request.headers || {}).map(([key, value]) => [key.toLowerCase(), value]));
-    let site;
-    try { site = new URL(env.URL || "https://produtoraangels.netlify.app"); }
+    const allowedOrigins = new Set(["https://produtoraangels.netlify.app"]);
+    try { if (env.URL) allowedOrigins.add(new URL(env.URL).origin); }
     catch { return reply(503, { ok: false, code: "CONFIGURATION_REQUIRED" }); }
-    if (headers.origin !== site.origin) return reply(403, { ok: false, code: "ORIGIN_NOT_ALLOWED" });
+    if (!allowedOrigins.has(headers.origin)) return reply(403, { ok: false, code: "ORIGIN_NOT_ALLOWED" });
     let data;
     try { data = JSON.parse(request.body); }
     catch { return reply(400, { ok: false, code: "INVALID_BODY" }); }
@@ -29,7 +29,7 @@ export function createHandler({ env = process.env, fetchImpl = globalThis.fetch,
     let source;
     try {
       source = new URL(data.event_source_url);
-      if (source.origin !== site.origin) throw new Error("Invalid source");
+      if (source.origin !== headers.origin) throw new Error("Invalid source");
       source.search = "";
       source.hash = "";
     } catch { return reply(400, { ok: false, code: "INVALID_SOURCE" }); }

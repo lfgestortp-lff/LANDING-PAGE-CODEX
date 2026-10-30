@@ -61,3 +61,10 @@ test("uses the agency's current domain when the Netlify URL variable is absent",
   const result=await handler(request({...base,event_source_url:agency+"/"},{origin:agency}));
   assert.equal(result.statusCode,200);
 });
+test("keeps the renamed production domain working with a stale Netlify URL", async () => {
+  const agency="https://produtoraangels.netlify.app";
+  const handler=createHandler({env:{...env,URL:"https://old-project.netlify.app"},now:()=>now,fetchImpl:async()=>({ok:true,status:200,json:async()=>({events_received:1})})});
+  assert.equal((await handler(request({...base,event_source_url:agency+"/"},{origin:agency}))).statusCode,200);
+  assert.equal((await handler(request(base,{origin:agency}))).statusCode,400);
+  assert.equal((await handler(request({...base,event_source_url:"https://other.example/"},{origin:"https://other.example"}))).statusCode,403);
+});
