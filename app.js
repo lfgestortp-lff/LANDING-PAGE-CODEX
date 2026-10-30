@@ -158,7 +158,7 @@ $("confirm-submit").addEventListener("click", async () => {
       completed = true;
       if (trackingAllowed && window.fbq) window.fbq("track", "Lead");
       $("confirmation").close();
-      $("form-status").textContent = "Inscrição grátis realizada! A equipe da Produtora Angels entrará em contato pelo telefone informado para explicar os próximos passos da seletiva presencial em Piracicaba.";
+      $("form-status").textContent = "Inscrição grátis realizada! A equipe da Produtora Angels entrará em contato pelo WhatsApp informado para explicar os próximos passos da seletiva presencial em Piracicaba.";
       $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
     } else if (result.codigo === "DUPLICADO") {
       $("submit-status").textContent = "Este telefone já está cadastrado. Você pode voltar e conferir o número informado.";

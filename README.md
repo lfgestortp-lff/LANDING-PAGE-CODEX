@@ -26,7 +26,7 @@ Confira o HTML por uma requisição local e abra em um navegador para validar o 
 
 ## Antes de publicar a campanha
 
-Definir responsável pelo tratamento, política de privacidade, finalidade, retenção e tratamento de inscrições de menores. Adicionar proteção contra abuso no serviço de envio. Validar em navegador o envio pela origem de produção e os eventos no Gerenciador de Eventos da Meta. Os testes HTTP da API não comprovam CORS nem recebimento dos eventos pela Meta. Prazo global da campanha e identidade visual ainda estão pendentes.
+Definir responsável pelo tratamento, política de privacidade, finalidade, retenção e tratamento de inscrições de menores. Adicionar proteção contra abuso no serviço de envio. Validar em navegador o envio pela origem de produção e os eventos no Gerenciador de Eventos da Meta. Os testes HTTP da API não comprovam CORS nem recebimento dos eventos pela Meta. A campanha não tem data de encerramento definida; mantém-se o bloco de três passos. A identidade visual oficial ainda está pendente.
 
 ## Presença em Piracicaba
 
@@ -38,4 +38,4 @@ O pop-up inicial exige uma escolha. Sim libera o formulário; Não substitui a i
 
 ## Copy e confiança
 
-Público, gratuidade da inscrição e Piracicaba são informados logo na primeira tela. A página explica a confirmação e o contato posterior pelo telefone informado e inclui o Instagram oficial. Não afirma aceitação de iniciantes, contato via WhatsApp ou outros serviços gratuitos sem confirmação da agência. Fotos reais de trabalhos/modelos podem substituir as ilustrações quando fornecidas com autorização; não há depoimentos ou resultados inventados.
+Público, gratuidade da inscrição e Piracicaba são informados logo na primeira tela. A página explica a confirmação e o contato posterior pelo WhatsApp informado e inclui o Instagram oficial. A agência confirmou aceitação de mulheres sem experiência e contato posterior pelo WhatsApp. Não são prometidos outros serviços gratuitos. Fotos reais de trabalhos/modelos podem substituir as ilustrações quando fornecidas com autorização; não há depoimentos ou resultados inventados.
