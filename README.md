@@ -22,7 +22,7 @@ Confira o HTML por uma requisição local e abra em um navegador para validar o 
 - A API é responsável por gravar e conferir duplicidade; o cliente aceita telefone com ou sem DDD.
 - Não há recuperação de abandono ou armazenamento local dos campos pessoais.
 - Cores ficam nas variáveis de `:root` em `styles.css`.
-- Cronômetro individual de 10h43min54s na primeira visita, com prazo persistido no navegador; não reinicia ao recarregar e para em zero. Não representa um prazo global da campanha e não bloqueia o envio após expirar.
+- Cronômetro compartilhado pela campanha: configure `CAMPAIGN_END_AT` em `app.js` com data e fuso reais. Sem data confirmada, a página mostra três passos de inscrição no mesmo espaço, sem urgência individual. Ao expirar, impede novos envios na interface; o Apps Script precisará de validação própria se o prazo também for obrigatório no servidor.
 
 ## Antes de publicar a campanha
 
@@ -35,3 +35,7 @@ O pop-up inicial exige uma escolha. Sim libera o formulário; Não substitui a i
 ## Fundo ilustrativo
 
 `assets/mulheres-45plus-fundo.png` é uma composição gerada por IA com três mulheres fictícias, desfocada e mesclada em degradê. Não representa modelos reais da agência. O fundo é decorativo, usa camadas de contraste no CSS e enquadramento específico para celular.
+
+## Copy e confiança
+
+Público, gratuidade da inscrição e Piracicaba são informados logo na primeira tela. A página explica a confirmação e o contato posterior pelo telefone informado e inclui o Instagram oficial. Não afirma aceitação de iniciantes, contato via WhatsApp ou outros serviços gratuitos sem confirmação da agência. Fotos reais de trabalhos/modelos podem substituir as ilustrações quando fornecidas com autorização; não há depoimentos ou resultados inventados.
