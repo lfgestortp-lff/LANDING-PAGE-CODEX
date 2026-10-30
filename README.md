@@ -27,3 +27,7 @@ Confira o HTML por uma requisição local e abra em um navegador para validar o 
 ## Antes de publicar a campanha
 
 Definir responsável pelo tratamento, política de privacidade, finalidade, retenção e tratamento de inscrições de menores. Adicionar proteção contra abuso no serviço de envio. Validar em navegador o envio pela origem de produção e os eventos no Gerenciador de Eventos da Meta. Os testes HTTP da API não comprovam CORS nem recebimento dos eventos pela Meta. Prazo global da campanha e identidade visual ainda estão pendentes.
+
+## Presença em Piracicaba
+
+O pop-up inicial exige uma escolha. Sim libera o formulário; Não substitui a inscrição por um aviso e um link para https://instagram.com/produtoraangels. A aba permanece aberta para exibir a mensagem. O bloqueio é de interface; o endpoint público do Apps Script mantém suas validações independentes.

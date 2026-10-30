@@ -81,14 +81,21 @@ $("accept-tracking").addEventListener("click", () => setTracking(true));
 $("reject-tracking").addEventListener("click", () => setTracking(false));
 $("tracking-settings").addEventListener("click", () => { $("cookie-banner").hidden = false; });
 
+let attendanceEligible = false;
 $("attendance-yes").addEventListener("click", () => {
-  $("attendance-notice").hidden = true;
+  attendanceEligible = true;
   $("attendance").close();
 });
 $("attendance-no").addEventListener("click", () => {
-  $("attendance-notice").hidden = false;
+  attendanceEligible = false;
+  $("registration-page").hidden = true;
+  $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
+  $("cookie-banner").hidden = true;
+  $("attendance-unavailable").hidden = false;
   $("attendance").close();
+  $("unavailable-title").focus();
 });
+$("attendance").addEventListener("cancel", (e) => e.preventDefault());
 $("attendance").showModal();
 
 $("lead-form").addEventListener("input", (e) => {
@@ -106,7 +113,7 @@ function validPhone(phone) {
 }
 $("lead-form").addEventListener("submit", (e) => {
   e.preventDefault();
-  if (sending || completed) return;
+  if (!attendanceEligible || sending || completed) return;
   const name = $("name").value.trim().replace(/\s+/g, " ");
   const phone = $("phone").value.trim();
   if (name.split(" ").length < 2) {
@@ -130,7 +137,7 @@ $("lead-form").addEventListener("submit", (e) => {
 $("edit-data").addEventListener("click", () => { if (!sending) $("confirmation").close(); });
 $("confirmation").addEventListener("cancel", (e) => { if (sending) e.preventDefault(); });
 $("confirm-submit").addEventListener("click", async () => {
-  if (sending || completed || !draft) return;
+  if (!attendanceEligible || sending || completed || !draft) return;
   sending = true;
   $("confirm-submit").disabled = true;
   $("edit-data").disabled = true;
