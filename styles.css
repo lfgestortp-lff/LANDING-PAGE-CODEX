@@ -60,6 +60,7 @@ input:focus-visible,button:focus-visible { outline:2px solid var(--focus); outli
 .instagram-link { text-decoration:none; text-align:center; }
 @media(max-width:420px) { .unavailable-card { padding:26px; } .unavailable-card h2 { font-size:24px; } }
 .attendance-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; align-items:center; }
+.city-highlight { display:inline-block; color:var(--accent); background:rgba(233,203,167,.14); border-radius:6px; padding:2px 6px; margin:3px 0; font-weight:800; text-transform:uppercase; }
 .attendance-choice { width:100%; min-height:48px; padding:12px 18px; border:1px solid; border-radius:12px; font-size:15px; font-weight:700; transition:background-color .2s; }
 #attendance-yes { color:#a7efbf; background:#20372b; border-color:#426c50; }
 #attendance-yes:hover { background:#2b4838; }
