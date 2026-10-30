@@ -14,7 +14,7 @@ export function createHandler({ env = process.env, fetchImpl = globalThis.fetch,
     }
     const headers = Object.fromEntries(Object.entries(request.headers || {}).map(([key, value]) => [key.toLowerCase(), value]));
     let site;
-    try { site = new URL(env.URL || "https://zippy-selkie-9f0252.netlify.app"); }
+    try { site = new URL(env.URL || "https://produtoraangels.netlify.app"); }
     catch { return reply(503, { ok: false, code: "CONFIGURATION_REQUIRED" }); }
     if (headers.origin !== site.origin) return reply(403, { ok: false, code: "ORIGIN_NOT_ALLOWED" });
     let data;

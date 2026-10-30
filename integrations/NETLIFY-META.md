@@ -2,7 +2,7 @@
 
 ## Publicação
 
-Um upload estático pelo Netlify Drop não publica a função de servidor. No projeto existente `zippy-selkie-9f0252`, conecte o repositório `lfgestortp-lff/LANDING-PAGE-CODEX` à implantação contínua pelo GitHub, usando a branch `main`. Preserve o projeto e endereço atuais. Sem comando de build; diretório publicado `.`; funções `netlify/functions`, definidos em `netlify.toml`.
+Um upload estático pelo Netlify Drop não publica a função de servidor. No projeto existente `produtoraangels`, conecte o repositório `lfgestortp-lff/LANDING-PAGE-CODEX` à implantação contínua pelo GitHub, usando a branch `main`. Preserve o projeto e endereço atuais. Sem comando de build; diretório publicado `.`; funções `netlify/functions`, definidos em `netlify.toml`.
 
 ## Variáveis seguras no Netlify
 

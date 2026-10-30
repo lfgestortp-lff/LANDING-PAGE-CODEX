@@ -55,3 +55,9 @@ test("reports success only if Meta accepts the event", async () => {
   const handler=createHandler({env,now:()=>now,fetchImpl:async()=>{throw new Error("Network");}});
   assert.equal((await handler(request())).statusCode,502);
 });
+test("uses the agency's current domain when the Netlify URL variable is absent", async () => {
+  const agency="https://produtoraangels.netlify.app";
+  const handler=createHandler({env:{META_CAPI_ACCESS_TOKEN:"unit-test-only"},now:()=>now,fetchImpl:async()=>({ok:true,status:200,json:async()=>({events_received:1})})});
+  const result=await handler(request({...base,event_source_url:agency+"/"},{origin:agency}));
+  assert.equal(result.statusCode,200);
+});
