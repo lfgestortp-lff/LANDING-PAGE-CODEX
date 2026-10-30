@@ -2,6 +2,18 @@
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbx_bupWlQyNnibUyH7i8xyfuCl41HsblLrSRw7xZLs17YeyoU9ncDyOi9kY8hak-hiSUQ/exec";
 const PIXEL_ID = "1801282187897715";
 const $ = (id) => document.getElementById(id);
+const attribution = {};
+const campaignParameters = new URLSearchParams(location.search);
+for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_id"]) {
+  attribution[key] = (campaignParameters.get(key) || "").trim().slice(0, 256);
+}
+// Do not copy arbitrary query parameters or personal data into attribution.
+attribution.landing_page = location.origin + location.pathname;
+try { attribution.referrer = document.referrer ? new URL(document.referrer).origin : ""; }
+catch { attribution.referrer = ""; }
+function eventId() {
+  return globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
 // Configure a real, shared closing date with an explicit timezone, e.g.
 // "2026-12-01T18:00:00-03:00". Keep null until the agency supplies it.
 const CAMPAIGN_END_AT = null;
@@ -35,6 +47,8 @@ function campaignClosed() {
   return Number.isFinite(campaignDeadline) && Date.now() >= campaignDeadline;
 }
 let trackingAllowed = false;
+let trackingChoice = null;
+const pendingEvents = [];
 let pixelLoaded = false;
 let formStarted = false;
 let draft = null;
@@ -59,20 +73,27 @@ function loadPixel() {
   document.head.appendChild(script);
   fbq("consent", "grant");
   fbq("init", PIXEL_ID);
-  fbq("track", "PageView");
+  fbq("track", "PageView", {}, { eventID: eventId() });
 }
-function event(name) {
+function event(name, id = eventId(), standard = false) {
   // Never send names, ages or phone numbers as Pixel event parameters.
-  if (trackingAllowed && window.fbq) window.fbq("trackCustom", name);
+  if (trackingAllowed && window.fbq) {
+    window.fbq(standard ? "track" : "trackCustom", name, {}, { eventID: id });
+  } else if (trackingChoice === null && pendingEvents.length < 20) {
+    pendingEvents.push({ name, id, standard });
+  }
 }
 function setTracking(allowed) {
   trackingAllowed = allowed;
+  trackingChoice = allowed;
   try { localStorage.setItem("tracking-consent", allowed ? "accepted" : "rejected"); } catch {}
   $("cookie-banner").hidden = true;
   if (allowed) {
     if (pixelLoaded) window.fbq("consent", "grant");
     else loadPixel();
+    pendingEvents.splice(0).forEach((item) => event(item.name, item.id, item.standard));
   } else if (pixelLoaded) window.fbq("consent", "revoke");
+  if (!allowed) pendingEvents.length = 0;
 }
 try {
   const choice = localStorage.getItem("tracking-consent");
@@ -84,10 +105,12 @@ $("tracking-settings").addEventListener("click", () => { $("cookie-banner").hidd
 
 let attendanceEligible = false;
 $("attendance-yes").addEventListener("click", () => {
+  event("AttendanceYes");
   attendanceEligible = true;
   $("attendance").close();
 });
 $("attendance-no").addEventListener("click", () => {
+  event("AttendanceNo");
   attendanceEligible = false;
   $("registration-page").hidden = true;
   $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
@@ -127,7 +150,7 @@ $("lead-form").addEventListener("submit", (e) => {
     $("phone").reportValidity();
     return;
   }
-  draft = { nome: name, idade: $("age").value, telefone: phone };
+  draft = { nome: name, idade: $("age").value, telefone: phone, ...attribution, event_id: eventId() };
   $("review-name").textContent = draft.nome;
   $("review-age").textContent = draft.idade + " anos";
   $("review-phone").textContent = draft.telefone;
@@ -156,7 +179,7 @@ $("confirm-submit").addEventListener("click", async () => {
     const result = await response.json();
     if (result.ok === true && result.codigo === "CADASTRADO") {
       completed = true;
-      if (trackingAllowed && window.fbq) window.fbq("track", "Lead");
+      event("Lead", result.event_id || draft.event_id, true);
       $("confirmation").close();
       $("form-status").textContent = "Inscrição grátis realizada! A equipe da Produtora Angels entrará em contato pelo WhatsApp informado para explicar os próximos passos da seletiva presencial em Piracicaba.";
       $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });

@@ -17,7 +17,7 @@ Confira o HTML por uma requisição local e abra em um navegador para validar o 
 
 - `app.js`: endereço público do Google Apps Script e Meta Pixel `1801282187897715`.
 - O formulário abre uma confirmação antes de enviar. `Lead` só é disparado quando a API retorna `ok: true` e `CADASTRADO`.
-- Eventos personalizados: `FormStart`, `ReviewData`, `ConfirmSubmit`.
+- Eventos personalizados: `AttendanceYes`, `AttendanceNo`, `FormStart`, `ReviewData`, `ConfirmSubmit`. Eventos anteriores à decisão ficam apenas em memória até aceitar; recusa descarta a fila.
 - O Pixel carrega após aceitar rastreamento. Dados pessoais não são enviados como parâmetros dos eventos.
 - A API é responsável por gravar e conferir duplicidade; o cliente aceita telefone com ou sem DDD.
 - Não há recuperação de abandono ou armazenamento local dos campos pessoais.
@@ -43,3 +43,9 @@ Público, gratuidade da inscrição e Piracicaba são informados logo na primeir
 ## Prioridade no celular
 
 Até 800px, o formulário e seu botão aparecem primeiro, com público e cidade resumidos. A explicação do contato fica depois do botão; a copy e os três passos vêm depois do cartão. No computador, a copy continua à esquerda e o formulário à direita. A ordem do HTML começa pelo formulário para acompanhar a navegação por teclado no celular. O link do Instagram foi retirado do formulário; permanece na tela mostrada ao responder Não.
+
+## UTMs e nova planilha
+
+O formulário captura `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` e `utm_id` da URL em memória e envia junto ao cadastro, com página de entrada sem parâmetros adicionais, domínio de referência e ID do evento Lead. A implantação atual do Apps Script ignora esses novos campos; para gravá-los, implante `integrations/google-apps-script.js` seguindo `integrations/PLANILHA.md`. O endpoint permanece o atual até receber e testar a nova URL `/exec`. A API de Conversões não está instalada; é necessário confirmar hospedagem e configurar credenciais apenas no servidor. IDs nos eventos preparam uma futura deduplicação, sem garantir entrega.
+
+Teste do receptor da nova planilha, com serviços simulados: `node --test tests/sheets.test.cjs`.
