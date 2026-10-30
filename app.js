@@ -81,6 +81,16 @@ $("accept-tracking").addEventListener("click", () => setTracking(true));
 $("reject-tracking").addEventListener("click", () => setTracking(false));
 $("tracking-settings").addEventListener("click", () => { $("cookie-banner").hidden = false; });
 
+$("attendance-yes").addEventListener("click", () => {
+  $("attendance-notice").hidden = true;
+  $("attendance").close();
+});
+$("attendance-no").addEventListener("click", () => {
+  $("attendance-notice").hidden = false;
+  $("attendance").close();
+});
+$("attendance").showModal();
+
 $("lead-form").addEventListener("input", (e) => {
   if (!formStarted && e.target.matches("input:not([type=checkbox])") && e.target.value.trim()) {
     formStarted = true;

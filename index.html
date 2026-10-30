@@ -38,13 +38,24 @@
           <div><label for="age">IDADE</label><input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="Ex: 55" required></div>
         </div>
         <p id="phone-help" class="hint">Inclua o DDD se puder. Confira o número para receber nosso contato.</p>
-        <label class="check"><input id="contact-consent" type="checkbox" required><span>Autorizo a agência a usar meus dados para entrar em contato sobre esta seletiva.</span></label>
+        <p id="attendance-notice" class="attendance-notice" role="status" hidden>A seletiva é presencial em Piracicaba. Considere a necessidade de deslocamento antes de se inscrever.</p>
         <button type="submit" class="primary registration-cta">Inscrever-se gratuitamente <span aria-hidden="true">→</span></button>
         <p id="form-status" class="status" role="status" aria-live="polite"></p>
       </form>
       <p class="footnote"><svg aria-hidden="true" viewBox="0 0 16 16"><path fill="currentColor" d="M4 6V4a4 4 0 0 1 8 0v2h1a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1zm2 0h4V4a2 2 0 0 0-4 0v2z"/></svg> Seus dados serão enviados à equipe da agência para contato sobre a seletiva.</p>
     </section>
   </main>
+  <dialog id="attendance" aria-labelledby="attendance-title" aria-describedby="attendance-description">
+    <div class="dialog-content">
+      <p class="eyebrow">SELETIVA PRESENCIAL</p>
+      <h2 id="attendance-title">Você consegue ir até Piracicaba para a seletiva?</h2>
+      <p id="attendance-description" class="subtext">O encontro com a nossa equipe será presencial, em Piracicaba.</p>
+      <div class="attendance-actions">
+        <button id="attendance-yes" class="primary" type="button" autofocus>Sim, consigo ir <span aria-hidden="true">→</span></button>
+        <button id="attendance-no" class="secondary" type="button">Não</button>
+      </div>
+    </div>
+  </dialog>
   <dialog id="confirmation" aria-labelledby="confirmation-title" aria-describedby="confirmation-description">
     <div class="dialog-content">
       <p class="eyebrow">SEU PRÓXIMO PASSO</p>
