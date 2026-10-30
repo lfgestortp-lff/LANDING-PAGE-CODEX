@@ -1,5 +1,5 @@
 "use strict";
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbx_bupWlQyNnibUyH7i8xyfuCl41HsblLrSRw7xZLs17YeyoU9ncDyOi9kY8hak-hiSUQ/exec";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwJ_n0Wy2uNNWFA7-Mfc4WkkExxpBipMEgBuMGji1PTW10UT3_HiHz8B0tpRAYbksve/exec";
 const PIXEL_ID = "1801282187897715";
 const $ = (id) => document.getElementById(id);
 const attribution = {};

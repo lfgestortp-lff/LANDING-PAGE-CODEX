@@ -1,6 +1,6 @@
 # Nova planilha com origem da campanha
 
-O endpoint atual continua ativo até a nova implantação ser fornecida e testada. Alterar somente o link de uma planilha não altera o destino do Apps Script existente.
+A nova implantação foi fornecida, testada e conectada em `app.js`. Os passos abaixo permitem reproduzir sua configuração. Alterar somente o link de uma planilha não altera o destino do Apps Script existente.
 
 1. Crie a planilha e deixe uma aba vazia para os leads.
 2. Abra Extensões → Apps Script e substitua todo o editor pelo conteúdo de `google-apps-script.js`, sem envolver em `myFunction`.
@@ -17,7 +17,7 @@ Exemplo de parâmetros no anúncio:
 utm_source=facebook&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_content={{ad.name}}&utm_term={{adset.name}}&utm_id={{campaign.id}}
 ```
 
-Sem parâmetros, as UTMs ficam vazias. O site envia as informações no cadastro; o Apps Script antigo ignora campos adicionais. A gravação das UTMs só estará ativa após implantar o novo script.
+Sem parâmetros, as UTMs ficam vazias. O site envia as informações no cadastro; o Apps Script antigo ignora campos adicionais. A nova implantação foi validada por uma gravação com ID de evento e tentativas duplicadas. Confira a linha “Teste Integração UTMs” na planilha para verificar visualmente as UTMs antes de apagá-la.
 
 ## Eventos
 
