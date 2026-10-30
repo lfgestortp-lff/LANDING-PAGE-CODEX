@@ -8,6 +8,12 @@ const reply = (statusCode, payload) => ({
 // Dependencies are injectable for tests; no credentials are bundled into the page.
 export function createHandler({ env = process.env, fetchImpl = globalThis.fetch, now = Date.now } = {}) {
   return async function handler(request) {
+    if (request.httpMethod === "GET" && request.queryStringParameters?.status === "1") {
+      return reply(200, {
+        configured: Boolean(env.META_CAPI_ACCESS_TOKEN && /^\d+$/.test(env.META_PIXEL_ID || "1801282187897715")),
+        test_mode: Boolean(env.META_TEST_EVENT_CODE?.trim())
+      });
+    }
     if (request.httpMethod !== "POST") return reply(405, { ok: false, code: "METHOD_NOT_ALLOWED" });
     if (!request.body || request.isBase64Encoded || request.body.length > 8192) {
       return reply(400, { ok: false, code: "INVALID_BODY" });

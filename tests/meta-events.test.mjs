@@ -9,6 +9,14 @@ const env = { URL: origin, META_CAPI_ACCESS_TOKEN: "unit-test-only", META_PIXEL_
 const request = (data = base, headers = {}) => ({
   httpMethod: "POST", headers: { origin, "user-agent": "Test browser", "x-nf-client-connection-ip": "192.0.2.1", ...headers }, body: JSON.stringify(data)
 });
+test("status exposes only configuration flags, never credentials or test codes", async () => {
+  const handler = createHandler({env:{...env,META_TEST_EVENT_CODE:"test-code"},fetchImpl:()=>{throw new Error("Should not send");}});
+  const status=await handler({httpMethod:"GET",queryStringParameters:{status:"1"}});
+  assert.equal(status.statusCode,200);
+  assert.deepEqual(JSON.parse(status.body),{configured:true,test_mode:true});
+  const missing = createHandler({env:{}});
+  assert.deepEqual(JSON.parse((await missing({httpMethod:"GET",queryStringParameters:{status:"1"}})).body),{configured:false,test_mode:false});
+});
 test("requires consent and the correct origin without contacting Meta", async () => {
   const handler = createHandler({env, now: () => now, fetchImpl: () => { throw new Error("Should not send"); }});
   assert.equal((await handler(request({...base, consent: false}))).statusCode, 403);
