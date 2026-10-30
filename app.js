@@ -14,6 +14,45 @@ catch { attribution.referrer = ""; }
 function eventId() {
   return globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
+const pageArrivalTime = Date.now();
+let serverEventsAvailable = true;
+function metaCookie(name) {
+  const pair = document.cookie.split(";").map((item) => item.trim()).find((item) => item.startsWith(name + "="));
+  return pair ? pair.slice(name.length + 1) : "";
+}
+async function sendServerEvent(name, id, time) {
+  if (!trackingAllowed || !serverEventsAvailable) return;
+  const body = {
+    consent: true, event_name: name, event_id: id, event_time: time,
+    event_source_url: attribution.landing_page
+  };
+  // Marketing identifiers are read only after the visitor allows tracking.
+  const fbp = metaCookie("_fbp");
+  let fbc = metaCookie("_fbc");
+  const clickId = campaignParameters.get("fbclid");
+  if (!fbc && /^[A-Za-z0-9_-]{1,500}$/.test(clickId || "")) fbc = `fb.1.${pageArrivalTime}.${clickId}`;
+  if (fbp) body.fbp = fbp;
+  if (fbc) body.fbc = fbc;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    if (!trackingAllowed) return;
+    try {
+      const response = await fetch("/.netlify/functions/meta-events", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body), keepalive: true, credentials: "same-origin",
+        signal: AbortSignal.timeout(7000)
+      });
+      if (response.status === 404 || response.status === 503) {
+        serverEventsAvailable = false;
+        console.info("Eventos pelo servidor aguardam implantação/configuração no Netlify. O Pixel continua independente.");
+        return;
+      }
+      if (response.ok) return;
+      if (response.status < 500 && response.status !== 429) return;
+    } catch {}
+    if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 400));
+  }
+  console.info("Não foi possível confirmar a entrega do evento pelo servidor.");
+}
 // Configure a real, shared closing date with an explicit timezone, e.g.
 // "2026-12-01T18:00:00-03:00". Keep null until the agency supplies it.
 const CAMPAIGN_END_AT = null;
@@ -73,14 +112,15 @@ function loadPixel() {
   document.head.appendChild(script);
   fbq("consent", "grant");
   fbq("init", PIXEL_ID);
-  fbq("track", "PageView", {}, { eventID: eventId() });
+  event("PageView", eventId(), true);
 }
-function event(name, id = eventId(), standard = false) {
+function event(name, id = eventId(), standard = false, time = Math.floor(Date.now() / 1000)) {
   // Never send names, ages or phone numbers as Pixel event parameters.
   if (trackingAllowed && window.fbq) {
     window.fbq(standard ? "track" : "trackCustom", name, {}, { eventID: id });
+    void sendServerEvent(name, id, time);
   } else if (trackingChoice === null && pendingEvents.length < 20) {
-    pendingEvents.push({ name, id, standard });
+    pendingEvents.push({ name, id, standard, time });
   }
 }
 function setTracking(allowed) {
@@ -91,7 +131,7 @@ function setTracking(allowed) {
   if (allowed) {
     if (pixelLoaded) window.fbq("consent", "grant");
     else loadPixel();
-    pendingEvents.splice(0).forEach((item) => event(item.name, item.id, item.standard));
+    pendingEvents.splice(0).forEach((item) => event(item.name, item.id, item.standard, item.time));
   } else if (pixelLoaded) window.fbq("consent", "revoke");
   if (!allowed) pendingEvents.length = 0;
 }

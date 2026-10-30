@@ -21,6 +21,6 @@ Sem parâmetros, as UTMs ficam vazias. O site envia as informações no cadastro
 
 ## Eventos
 
-O Pixel mantém a preferência de rastreamento. Eventos ocorridos antes da decisão ficam apenas na memória desta página e só são enviados depois de aceitar; ao recusar são descartados. Sem aceite, nenhum desses eventos é enviado à Meta. Agora inclui `AttendanceYes` e `AttendanceNo`, além dos eventos do formulário. Eventos incluem IDs para permitir deduplicação em uma futura API de Conversões; essa API ainda não está instalada. IDs por si só não garantem entrega.
+O Pixel mantém a preferência de rastreamento. Eventos ocorridos antes da decisão ficam apenas na memória desta página e só são enviados depois de aceitar; ao recusar são descartados. Sem aceite, nenhum desses eventos é enviado à Meta. Agora inclui `AttendanceYes` e `AttendanceNo`, além dos eventos do formulário. Eventos incluem IDs para permitir deduplicação em uma futura API de Conversões; a função dessa API está implementada, aguardando publicação e token no Netlify (veja `NETLIFY-META.md`). IDs por si só não garantem entrega.
 
 Para eventos pelo servidor, confirmar hospedagem e configurar um serviço com token de acesso da Meta guardado no servidor, nunca no HTML ou JavaScript público. Mesmo com Pixel e API de Conversões, é necessário validar entrega no Gerenciador de Eventos e manter as preferências de uso dos dados. Não existe garantia de 100% de eventos recebidos.

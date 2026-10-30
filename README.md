@@ -46,6 +46,10 @@ Até 800px, o formulário e seu botão aparecem primeiro, com público e cidade 
 
 ## UTMs e nova planilha
 
-O formulário captura `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` e `utm_id` da URL em memória e envia junto ao cadastro, com página de entrada sem parâmetros adicionais, domínio de referência e ID do evento Lead. A implantação atual do Apps Script ignora esses novos campos; para gravá-los, implante `integrations/google-apps-script.js` seguindo `integrations/PLANILHA.md`. O endpoint permanece o atual até receber e testar a nova URL `/exec`. A API de Conversões não está instalada; é necessário confirmar hospedagem e configurar credenciais apenas no servidor. IDs nos eventos preparam uma futura deduplicação, sem garantir entrega.
+O formulário captura `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` e `utm_id` da URL em memória e envia junto ao cadastro, com página de entrada sem parâmetros adicionais, domínio de referência e ID do evento Lead. A implantação atual do Apps Script ignora esses novos campos; para gravá-los, implante `integrations/google-apps-script.js` seguindo `integrations/PLANILHA.md`. O endpoint permanece o atual até receber e testar a nova URL `/exec`. A API de Conversões está implementada em `netlify/functions/meta-events.mjs`, mas depende de publicação das Functions e das variáveis seguras do Netlify para ficar ativa. Pixel e servidor compartilham IDs para deduplicação, sem garantir entrega. Veja `integrations/NETLIFY-META.md`.
 
 Teste do receptor da nova planilha, com serviços simulados: `node --test tests/sheets.test.cjs`.
+
+## Publicação atual e API de Conversões
+
+Site informado: `https://zippy-selkie-9f0252.netlify.app/`. A publicação contínua pelo GitHub é recomendada para publicar as Netlify Functions. O token `META_CAPI_ACCESS_TOKEN` deve ser configurado diretamente no Netlify, com escopo de Functions. O repositório não contém credenciais. O fallback preserva o cadastro e o Pixel se a função não estiver publicada/configurada. Os testes da Meta são simulados até validar o site publicado com credenciais reais. A nova URL de Apps Script recebida respondeu 401, portanto o endpoint antigo permanece até corrigir o acesso.
