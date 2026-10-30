@@ -8,7 +8,21 @@
 }
 * { box-sizing:border-box; }
 body { margin:0; background:var(--background); color:var(--text); font-family:Arial,Helvetica,sans-serif; line-height:1.5; }
-body::before { content:""; position:fixed; inset:0; pointer-events:none; background-image:radial-gradient(circle at 6% 78%,#aaa5 1px,transparent 3px),radial-gradient(circle at 22% 51%,#aaa4 1px,transparent 2px),radial-gradient(circle at 43% 8%,#aaa3 1px,transparent 2px),radial-gradient(circle at 83% 43%,#aaa5 1px,transparent 3px),radial-gradient(circle at 97% 81%,#aaa5 1px,transparent 3px),radial-gradient(circle at 38% 95%,#aaa4 1px,transparent 3px),radial-gradient(circle at 67% 13%,#aaa3 1px,transparent 2px); }
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-color:var(--background);
+  background-image:
+    linear-gradient(180deg,rgba(19,14,20,.2) 0%,rgba(19,14,20,.45) 55%,var(--background) 100%),
+    linear-gradient(90deg,rgba(19,14,20,.58) 0%,rgba(19,14,20,.22) 48%,rgba(19,14,20,.4) 100%),
+    url("assets/mulheres-45plus-fundo.png");
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
+}
+
 button,input { font:inherit; }
 button { cursor:pointer; }
 button:disabled { cursor:wait; opacity:.65; }
@@ -103,3 +117,10 @@ dd:last-child { margin-bottom:0; }
 @media(max-width:420px) { .fields { grid-template-columns:1fr; } }
 
 body::after { content:""; position:fixed; inset:0; pointer-events:none; background-image:radial-gradient(circle at 10% 1%,#aaa4 1px,transparent 3px),radial-gradient(circle at 29% 15%,#aaa4 1px,transparent 3px),radial-gradient(circle at 37% 14%,#aaa4 1px,transparent 3px),radial-gradient(circle at 32% 44%,#aaa4 1px,transparent 2px),radial-gradient(circle at 44% 29%,#aaa4 1px,transparent 2px),radial-gradient(circle at 39% 68%,#aaa4 1px,transparent 2px),radial-gradient(circle at 87% 25%,#aaa4 1px,transparent 3px),radial-gradient(circle at 93% 43%,#aaa3 1px,transparent 2px),radial-gradient(circle at 86% 91%,#aaa4 1px,transparent 3px),radial-gradient(circle at 46% 96%,#aaa4 1px,transparent 3px),radial-gradient(circle at 12% 98%,#aaa4 1px,transparent 2px),radial-gradient(circle at 2% 79%,#aaa3 1px,transparent 2px); }
+
+/* A single background image; gradients keep the headline legible. */
+body::after { opacity:.25; }
+.card { background:linear-gradient(125deg,rgba(33,25,33,.95),rgba(42,32,39,.92)); }
+@media(max-width:800px) {
+  body::before { background-size:100% 100%,100% 100%,auto 680px; }
+}

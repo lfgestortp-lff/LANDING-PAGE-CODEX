@@ -31,3 +31,7 @@ Definir responsável pelo tratamento, política de privacidade, finalidade, rete
 ## Presença em Piracicaba
 
 O pop-up inicial exige uma escolha. Sim libera o formulário; Não substitui a inscrição por um aviso e um link para https://instagram.com/produtoraangels. A aba permanece aberta para exibir a mensagem. O bloqueio é de interface; o endpoint público do Apps Script mantém suas validações independentes.
+
+## Fundo ilustrativo
+
+`assets/mulheres-45plus-fundo.png` é uma composição gerada por IA com três mulheres fictícias, desfocada e mesclada em degradê. Não representa modelos reais da agência. O fundo é decorativo, usa camadas de contraste no CSS e enquadramento específico para celular.
