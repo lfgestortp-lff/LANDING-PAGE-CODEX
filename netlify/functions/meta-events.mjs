@@ -19,7 +19,11 @@ export function createHandler({ env = process.env, fetchImpl = globalThis.fetch,
       return reply(400, { ok: false, code: "INVALID_BODY" });
     }
     const headers = Object.fromEntries(Object.entries(request.headers || {}).map(([key, value]) => [key.toLowerCase(), value]));
-    const allowedOrigins = new Set(["https://produtoraangels.netlify.app"]);
+    const allowedOrigins = new Set([
+      "https://produtoraangels.netlify.app",
+      "https://produtoraangels.com.br",
+      "https://www.produtoraangels.com.br"
+    ]);
     try { if (env.URL) allowedOrigins.add(new URL(env.URL).origin); }
     catch { return reply(503, { ok: false, code: "CONFIGURATION_REQUIRED" }); }
     if (!allowedOrigins.has(headers.origin)) return reply(403, { ok: false, code: "ORIGIN_NOT_ALLOWED" });
