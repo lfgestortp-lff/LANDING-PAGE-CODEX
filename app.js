@@ -1,5 +1,11 @@
 "use strict";
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbwJ_n0Wy2uNNWFA7-Mfc4WkkExxpBipMEgBuMGji1PTW10UT3_HiHz8B0tpRAYbksve/exec";
+const PAGE_CONFIG = window.LANDING_PAGE_CONFIG || {};
+const CITY = PAGE_CONFIG.city || "Piracicaba";
+// An explicitly empty endpoint must never fall back to another city's sheet.
+const ENDPOINT = Object.prototype.hasOwnProperty.call(PAGE_CONFIG, "endpoint")
+  ? PAGE_CONFIG.endpoint
+  : "https://script.google.com/macros/s/AKfycbwJ_n0Wy2uNNWFA7-Mfc4WkkExxpBipMEgBuMGji1PTW10UT3_HiHz8B0tpRAYbksve/exec";
+const registrationConfigured = typeof ENDPOINT === "string" && ENDPOINT.startsWith("https://");
 const PIXEL_ID = "1801282187897715";
 const $ = (id) => document.getElementById(id);
 const attribution = {};
@@ -95,7 +101,7 @@ let sending = false;
 let completed = false;
 
 function loadPixel() {
-  if (pixelLoaded) return;
+  if (!registrationConfigured || pixelLoaded) return;
   pixelLoaded = true;
   const fbq = window.fbq = function () {
     if (fbq.callMethod) fbq.callMethod.apply(fbq, arguments);
@@ -115,6 +121,7 @@ function loadPixel() {
   event("PageView", eventId(), true);
 }
 function event(name, id = eventId(), standard = false, time = Math.floor(Date.now() / 1000)) {
+  if (!registrationConfigured) return;
   // Never send names, ages or phone numbers as Pixel event parameters.
   if (trackingAllowed && window.fbq) {
     window.fbq(standard ? "track" : "trackCustom", name, {}, { eventID: id });
@@ -142,6 +149,13 @@ try {
 $("accept-tracking").addEventListener("click", () => setTracking(true));
 $("reject-tracking").addEventListener("click", () => setTracking(false));
 $("tracking-settings").addEventListener("click", () => { $("cookie-banner").hidden = false; });
+
+if (!registrationConfigured) {
+  $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
+  $("form-status").textContent = "As inscrições para esta seletiva estarão disponíveis em breve.";
+  $("cookie-banner").hidden = true;
+  $("tracking-settings").hidden = true;
+}
 
 let attendanceEligible = false;
 $("attendance-yes").addEventListener("click", () => {
@@ -177,7 +191,7 @@ function validPhone(phone) {
 }
 $("lead-form").addEventListener("submit", (e) => {
   e.preventDefault();
-  if (!attendanceEligible || campaignClosed() || sending || completed) return;
+  if (!registrationConfigured || !attendanceEligible || campaignClosed() || sending || completed) return;
   const name = $("name").value.trim().replace(/\s+/g, " ");
   const phone = $("phone").value.trim();
   if (name.split(" ").length < 2) {
@@ -201,7 +215,7 @@ $("lead-form").addEventListener("submit", (e) => {
 $("edit-data").addEventListener("click", () => { if (!sending) $("confirmation").close(); });
 $("confirmation").addEventListener("cancel", (e) => { if (sending) e.preventDefault(); });
 $("confirm-submit").addEventListener("click", async () => {
-  if (!attendanceEligible || campaignClosed() || sending || completed || !draft) return;
+  if (!registrationConfigured || !attendanceEligible || campaignClosed() || sending || completed || !draft) return;
   sending = true;
   $("confirm-submit").disabled = true;
   $("edit-data").disabled = true;
@@ -221,7 +235,7 @@ $("confirm-submit").addEventListener("click", async () => {
       completed = true;
       event("Lead", result.event_id || draft.event_id, true);
       $("confirmation").close();
-      $("form-status").textContent = "Inscrição grátis realizada! A equipe da Produtora Angels entrará em contato pelo WhatsApp informado para explicar os próximos passos da seletiva presencial em Piracicaba.";
+      $("form-status").textContent = `Inscrição grátis realizada! A equipe da Produtora Angels entrará em contato pelo WhatsApp informado para explicar os próximos passos da seletiva presencial em ${CITY}.`;
       $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
     } else if (result.codigo === "DUPLICADO") {
       $("submit-status").textContent = "Este telefone já está cadastrado. Você pode voltar e conferir o número informado.";

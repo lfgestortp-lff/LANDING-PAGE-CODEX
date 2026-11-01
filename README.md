@@ -61,3 +61,7 @@ O site `https://produtoraangels.netlify.app/` retornou HTTP 200 com formulário 
 ## Prévia da Paleta A
 
 `/paleta-a/` é um modelo visual separado, com fundo `#FFF9F0`, texto `#232323` e vinho `#6B2039`. Usa a estrutura compartilhada de CSS e mantém o formulário prioritário no celular, mas carrega apenas `preview.js`: não envia cadastros à planilha, não carrega Pixel e não envia eventos à Meta. O tema e a integração da página principal não são alterados. A prévia usa noindex/nofollow.
+
+## Jundiaí
+
+`/jundiai/` usa a paleta clara, a mesma lógica de rastreamento e a cidade Jundiaí. A planilha foi informada, mas a implantação `/exec` ainda não; `jundiai/config.js` deixa o envio e o Pixel bloqueados até conectar o receptor correto. `jundiai/google-apps-script.js` já contém o ID da planilha e a aba 0. Não reutilizar o projeto de Apps Script de Piracicaba. A página principal e a prévia de cores continuam independentes.
