@@ -64,4 +64,4 @@ O site `https://produtoraangels.netlify.app/` retornou HTTP 200 com formulário 
 
 ## Jundiaí
 
-`/jundiai/` usa a paleta clara, a mesma lógica de rastreamento e a cidade Jundiaí. A planilha foi informada, mas a implantação `/exec` ainda não; `jundiai/config.js` deixa o envio e o Pixel bloqueados até conectar o receptor correto. `jundiai/google-apps-script.js` já contém o ID da planilha e a aba 0. Não reutilizar o projeto de Apps Script de Piracicaba. A página principal e a prévia de cores continuam independentes.
+`/jundiai/` usa a paleta clara, a mesma lógica de rastreamento e a cidade Jundiaí. A implantação própria de Jundiaí foi fornecida, validada por cadastro e tentativas duplicadas e conectada em `jundiai/config.js`. Envios e rastreamento estão liberados para esta cidade; não há fallback para a planilha de Piracicaba. `jundiai/google-apps-script.js` já contém o ID da planilha e a aba 0. Não reutilizar o projeto de Apps Script de Piracicaba. A página principal e a prévia de cores continuam independentes.
