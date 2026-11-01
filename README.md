@@ -57,3 +57,7 @@ Site informado: `https://produtoraangels.netlify.app/`. A publicação contínua
 ## Validação em produção
 
 O site `https://produtoraangels.netlify.app/` retornou HTTP 200 com formulário e JavaScript contendo a nova planilha e API de Conversões. A função inicialmente recusou a origem; a correção preserva o domínio atual mesmo se `URL` estiver desatualizada. Após publicação automática, o endpoint rejeitou um pedido sem consentimento (`CONSENT_REQUIRED`) e aceitou um PageView autorizado de validação com HTTP 200 e `events_received: 1`, ID `validation-2fbccb1b-aa33-4cda-8e8b-5e99cf12c6f8`. Não foi enviado Lead nem criado cadastro nessa validação. Esse resultado comprova aceitação do evento pela API da Meta, não entrega universal ou a atribuição/deduplicação no painel.
+
+## Prévia da Paleta A
+
+`/paleta-a/` é um modelo visual separado, com fundo `#FFF9F0`, texto `#232323` e vinho `#6B2039`. Usa a estrutura compartilhada de CSS e mantém o formulário prioritário no celular, mas carrega apenas `preview.js`: não envia cadastros à planilha, não carrega Pixel e não envia eventos à Meta. O tema e a integração da página principal não são alterados. A prévia usa noindex/nofollow.

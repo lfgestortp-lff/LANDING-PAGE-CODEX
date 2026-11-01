@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Seletiva presencial da Produtora Angels em Piracicaba para mulheres a partir dos 45 anos. Faça sua inscrição grátis e receba as orientações da equipe pelo WhatsApp.">
+  <title>Paleta A — Prévia da landing page</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="theme.css">
+  <script src="preview.js" defer></script>
+</head>
+<body>
+  <main class="layout" id="registration-page">
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title" class="form-heading">Sua inscrição é grátis</h2>
+      <p class="form-context">Mulheres 45+ · Presencial em Piracicaba</p>
+      <p class="form-description">Preencha seus dados e confirme a inscrição. Depois, nossa equipe entrará em contato pelo WhatsApp para explicar como funciona a seletiva.</p>
+      <form id="lead-form">
+        <label for="name">NOME COMPLETO</label>
+        <input id="name" name="nome" autocomplete="name" placeholder="Digite seu nome completo" minlength="3" maxlength="150" required>
+        <div class="fields">
+          <div><label for="phone">WHATSAPP</label><input id="phone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="Ex: 1998847873" aria-describedby="phone-help" required></div>
+          <div><label for="age">IDADE</label><input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="Ex: 55" required></div>
+        </div>
+        <p id="phone-help" class="hint">Informe seu WhatsApp. O DDD é opcional; inclua se puder.</p>
+        <button type="submit" class="primary registration-cta">Quero minha inscrição grátis <span aria-hidden="true">→</span></button>
+        <p class="free-note">A gratuidade se refere à inscrição na seletiva.</p>
+        <p id="form-status" class="status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="footnote">Modelo de teste de cores. Nenhum cadastro é enviado.</p>
+    </section>
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">PIRACICABA · INSCRIÇÃO GRÁTIS</p>
+      <h1 id="title">Seletiva de modelos<br>para <span>mulheres 45+</span></h1>
+      <p class="description">Sua história merece destaque. Faça sua inscrição grátis na seletiva presencial da Produtora Angels, em <strong>Piracicaba</strong>, para mulheres a partir dos 45 anos.</p>
+      <div class="deadline" id="campaign-countdown" aria-label="Prazo de inscrições" hidden>
+        <p class="deadline-label" id="countdown-label">AS VAGAS ENCERRAM EM:</p>
+        <div class="countdown" aria-hidden="true">
+          <div><strong id="countdown-hours">00</strong><span>HORAS</span></div>
+          <div><strong id="countdown-minutes">00</strong><span>MIN</span></div>
+          <div><strong id="countdown-seconds">00</strong><span>SEG</span></div>
+        </div>
+      </div>
+      <div id="registration-steps" class="registration-steps" aria-labelledby="steps-title">
+        <p id="steps-title" class="deadline-label">SUA INSCRIÇÃO GRÁTIS EM 3 PASSOS</p>
+        <ol>
+          <li><strong>01</strong><span>Preencha<br>seus dados</span></li>
+          <li><strong>02</strong><span>Confira<br>e envie</span></li>
+          <li><strong>03</strong><span>Receba contato<br>pelo WhatsApp</span></li>
+        </ol>
+      </div>
+      <ul class="benefits">
+        <li><span aria-hidden="true">✓</span> Inscrição grátis, simples e rápida</li>
+        <li><span aria-hidden="true">✓</span> Não precisa ter experiência como modelo</li>
+        <li><span aria-hidden="true">✓</span> Encontro presencial em Piracicaba</li>
+      </ul>
+    </section>
+  </main>
+  <section id="attendance-unavailable" class="unavailable-screen" aria-labelledby="unavailable-title" hidden>
+    <div class="unavailable-card">
+      <p class="eyebrow">OBRIGADA PELO INTERESSE</p>
+      <h2 id="unavailable-title" tabindex="-1">Infelizmente, esta seletiva não é para você neste momento.</h2>
+      <p class="subtext">A participação exige presença em Piracicaba. Mas você pode acompanhar a Produtora Angels no Instagram e conhecer nosso trabalho.</p>
+      <a class="primary instagram-link" href="https://instagram.com/produtoraangels">Conhecer o Instagram <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+  <dialog id="attendance" aria-labelledby="attendance-title" aria-describedby="attendance-description">
+    <div class="dialog-content">
+      <p class="eyebrow">SELETIVA PRESENCIAL</p>
+      <h2 id="attendance-title">Você consegue ir até <mark class="city-highlight">Piracicaba</mark> para a seletiva?</h2>
+      <p id="attendance-description" class="subtext">Esta seletiva é para mulheres a partir dos 45 anos e acontece presencialmente em Piracicaba. A inscrição é grátis.</p>
+      <div class="attendance-actions">
+        <button id="attendance-yes" class="attendance-choice" type="button" autofocus>Sim</button>
+        <button id="attendance-no" class="attendance-choice" type="button">Não</button>
+      </div>
+    </div>
+  </dialog>
+  <dialog id="confirmation" aria-labelledby="confirmation-title" aria-describedby="confirmation-description">
+    <div class="dialog-content">
+      <p class="eyebrow">SEU PRÓXIMO PASSO</p>
+      <h2 id="confirmation-title">Vamos confirmar sua inscrição grátis?</h2>
+      <p id="confirmation-description" class="subtext">Prévia da confirmação dos dados. Nenhum dado será enviado neste modelo de teste.</p>
+      <dl><dt>Nome completo</dt><dd id="review-name"></dd><dt>Idade</dt><dd id="review-age"></dd><dt>WhatsApp</dt><dd id="review-phone"></dd></dl>
+      <p id="submit-status" class="status" role="status" aria-live="polite"></p>
+      <button id="confirm-submit" class="primary" type="button">CONCLUIR TESTE <span aria-hidden="true">→</span></button>
+      <button id="edit-data" class="secondary" type="button">Voltar e editar</button>
+    </div>
+  </dialog>
+</body>
+</html>
