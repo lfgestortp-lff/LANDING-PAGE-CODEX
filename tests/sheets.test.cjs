@@ -6,7 +6,7 @@ function service(configured = true, sourceFile = 'integrations/google-apps-scrip
   const rows = [];
   let locked = false;
   const sheet = {
-    getMaxColumns: () => 26, getMaxRows: () => 1000, getLastRow: () => rows.length,
+    getMaxColumns: () => 26, getLastColumn: () => Math.max(0,...rows.map(row=>row.length)), getMaxRows: () => 1000, getLastRow: () => rows.length,
     getSheetId: () => 0, setFrozenRows() {},
     getRange(r, c, height, width) { return {
       setNumberFormat() {},
@@ -84,5 +84,35 @@ for (const [file, sheetId] of [
     assert.equal(s.rows.length,0);
     for(const idade of ['0','121','55.5','abc']) assert.equal(s.post({...lead,idade}).codigo,'DADOS_INVALIDOS');
     assert.equal(s.rows.length,0);
+  });
+}
+
+for (const [file, sheetId] of [
+  ['integrations/google-apps-script.js','test-sheet'],
+  ['jundiai/google-apps-script.js','1i-bQQo3lU5CAbpS3iSvRcCNISxsfwYE4qzLrzkSsjnk']
+]) {
+  test(file + ': adds estimated origin columns without changing old records or custom columns', () => {
+    const s=service(true,file,sheetId);
+    s.post(lead);
+    // Simulate an older sheet and a manual follow-up column after the base schema.
+    s.rows[0]=s.rows[0].slice(0,14).concat('Status manual');
+    s.rows[1]=s.rows[1].slice(0,14).concat('Contato realizado');
+    const previous=s.rows[1].slice();
+    const result=s.post({...lead,telefone:'11900000003',estimated_city:'Campinas',estimated_state:'São Paulo',estimated_country:'Brasil',location_source:'netlify_ip'});
+    assert.equal(result.codigo,'CADASTRADO');
+    assert.deepEqual(s.rows[1],previous);
+    assert.equal(s.rows[0][14],'Status manual');
+    assert.equal(s.rows[2][14],'');
+    for(const [header,value] of [['Cidade estimada (IP)','Campinas'],['Estado estimado (IP)','São Paulo'],['País estimado (IP)','Brasil'],['Fonte da localização','netlify_ip']]) {
+      assert.equal(s.rows[2][s.rows[0].indexOf(header)],value);
+    }
+    assert.equal(s.rows[2][5],'facebook');
+    assert.equal(JSON.parse(s.ctx.doGet()).capabilities.estimated_location,true);
+  });
+  test(file + ': unavailable origin remains blank and location text cannot inject formulas', () => {
+    const s=service(true,file,sheetId);s.post(lead);
+    assert.equal(s.rows[1][s.rows[0].indexOf('Cidade estimada (IP)')],'');
+    s.post({...lead,telefone:'11900000003',estimated_city:'=FORMULA'});
+    assert.equal(s.rows[2][s.rows[0].indexOf('Cidade estimada (IP)')],"'=FORMULA");
   });
 }

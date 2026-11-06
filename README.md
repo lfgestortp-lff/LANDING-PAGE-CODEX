@@ -30,7 +30,7 @@ Definir responsável pelo tratamento, política de privacidade, finalidade, rete
 
 ## Presença em Piracicaba
 
-O pop-up inicial exige uma escolha. Sim libera o formulário; Não substitui a inscrição por um aviso e um link para https://instagram.com/produtoraangels. A aba permanece aberta para exibir a mensagem. O bloqueio é de interface; o endpoint público do Apps Script mantém suas validações independentes.
+O formulário abre diretamente, sem pergunta de cidade nem bloqueio por distância. A cidade da seletiva continua visível. Mulheres de outras cidades podem se inscrever se tiverem disponibilidade de comparecer. A estimativa de origem por IP serve apenas para análise.
 
 ## Fundo ilustrativo
 
@@ -68,7 +68,7 @@ O site `https://produtoraangels.netlify.app/` retornou HTTP 200 com formulário 
 
 ## Idade opcional e visitantes de outras cidades
 
-A pergunta inicial informa que a participante pode morar em outra cidade, desde que consiga se deslocar para a seletiva presencial. A resposta Não continua encerrando o formulário; a regra não exige residência local.
+A copy informa que a participante pode morar em outra cidade, desde que consiga se deslocar para a seletiva presencial. O pop-up foi retirado, e residência ou localização estimada não condicionam o cadastro.
 
 A idade passa a opcional quando o receptor confirma `capabilities.age_optional` em um GET público e sem dados pessoais. Até publicar o Apps Script novo, o navegador mantém a idade obrigatória para não enviar cadastros incompatíveis com o receptor antigo. Omissão fica vazia na planilha e aparece como “Não informada” na confirmação; idades preenchidas continuam validadas de 1 a 120. Pixel, IDs e UTMs são preservados.
 
@@ -81,6 +81,16 @@ Apps Script → Implantar → Gerenciar implantações → lápis → Nova vers�
 
 ## Áudio de instruções
 
-`assets/instrucoes-inscricao.mp3` é a gravação fornecida pela agência, com aproximadamente 19 segundos e 326 KB. O botão fica depois do botão de inscrição, preservando campos e CTA prioritários no celular. `audio-instructions.js` inicia a reprodução no clique em Sim da pergunta inicial, dentro da interação exigida pelo navegador, e repete ao final enquanto a aba estiver visível. O botão permite pausar e continuar; não há som antes de responder Sim. Navegadores, volume e configurações do aparelho podem impedir o som, portanto não há garantia de que todas as visitantes ouvirão. `preload=none` evita baixar o MP3 antes da interação; se o JavaScript falhar, há controles nativos como alternativa. Ao sair da aba ou da página, a reprodução é pausada e a repetição interrompida; ao voltar, é possível continuar pelo botão.
+`assets/instrucoes-inscricao.mp3` é a gravação fornecida pela agência, com aproximadamente 19 segundos e 326 KB. O botão fica depois do botão de inscrição, preservando campos e CTA prioritários no celular. `audio-instructions.js` inicia a reprodução no primeiro clique/toque em um campo do formulário (ou ao começar a digitar pelo teclado), dentro da interação exigida pelo navegador, e repete ao final enquanto a aba estiver visível. O botão permite pausar e continuar; não há som ao carregar a página. O primeiro toque no botão de áudio também permite ouvir, e uma pausa manual não é desfeita por tocar em outro campo. Navegadores, volume e configurações do aparelho podem impedir o som, portanto não há garantia de que todas as visitantes ouvirão. `preload=none` evita baixar o MP3 antes da interação; se o JavaScript falhar, há controles nativos como alternativa. Ao sair da aba ou da página, a reprodução é pausada e a repetição interrompida; ao voltar, é possível continuar pelo botão.
 
 Falhas do arquivo não bloqueiam o formulário. O rastreamento usa `AudioInstructionsStart` e `AudioInstructionsComplete`, uma vez por página em cada estágio, pelos mesmos canais e regras de consentimento do formulário. Pausar/continuar ou repetir não cria novos Starts/Completes. Cada evento compartilha seu ID entre Pixel e API de Conversões; reproduzir não emite Lead. A prévia `/paleta-a/` também tem áudio, mas continua sem rastreamento e sem envio de cadastros.
+
+## Origem aproximada por IP
+
+`netlify/functions/location.mjs` usa a API v2 de Netlify Functions e o `context.geo` fornecido pela hospedagem. Retorna somente cidade, estado e país aproximados, com fonte `netlify_ip` e precisão `approximate`. Não retorna IP bruto, coordenadas ou CEP, não solicita GPS, não chama serviços de terceiros e usa `Cache-Control: private, no-store`. Não garante residência/localização exata.
+
+`app.js` consulta a origem em paralelo, por até três segundos. Indisponibilidade ou lentidão não bloqueiam nem atrasam a inscrição; não há fallback para a cidade da seletiva. Os campos `estimated_city`, `estimated_state`, `estimated_country` e `location_source` acompanham o cadastro quando disponíveis. A mensagem abaixo do formulário informa esse uso. Não são acrescentados como parâmetros do Pixel ou CAPI.
+
+**Para gravar na planilha:** atualizar e publicar Nova versão dos dois Apps Scripts. O código acrescenta as colunas ausentes ao final, preservando as primeiras 14, os registros e eventuais colunas manuais. Até essa atualização, a implantação anterior continua salvando os cadastros e ignorando os novos campos. `doGet` passa a informar `capabilities.estimated_location: true`. A preparação de cabeçalhos pode ser executada por `prepararPlanilha`, sem apagar a planilha.
+
+Eventos antigos AttendanceYes/AttendanceNo são mantidos na lista aceita pelo servidor para compatibilidade com histórico/páginas já abertas, mas não são mais emitidos pelo novo formulário. O funil atual começa em PageView e FormStart.

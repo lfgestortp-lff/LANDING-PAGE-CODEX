@@ -163,24 +163,26 @@ if (!registrationConfigured) {
   $("tracking-settings").hidden = true;
 }
 
-let attendanceEligible = false;
-$("attendance-yes").addEventListener("click", () => {
-  event("AttendanceYes");
-  attendanceEligible = true;
-  $("attendance").close();
-});
-$("attendance-no").addEventListener("click", () => {
-  event("AttendanceNo");
-  attendanceEligible = false;
-  $("registration-page").hidden = true;
-  $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
-  $("cookie-banner").hidden = true;
-  $("attendance-unavailable").hidden = false;
-  $("attendance").close();
-  $("unavailable-title").focus();
-});
-$("attendance").addEventListener("cancel", (e) => e.preventDefault());
-$("attendance").showModal();
+let estimatedLocation = {};
+async function lookupEstimatedLocation() {
+  if (!registrationConfigured) return;
+  try {
+    const response = await fetch("/.netlify/functions/location", {
+      credentials: "same-origin", cache: "no-store", signal: AbortSignal.timeout(3000)
+    });
+    if (!response.ok) return;
+    const data = await response.json();
+    if (data.ok !== true || data.source !== "netlify_ip" || data.accuracy !== "approximate") return;
+    const text = (value) => typeof value === "string" ? value.trim().slice(0, 120) : "";
+    const fields = {
+      estimated_city: text(data.city), estimated_state: text(data.state), estimated_country: text(data.country)
+    };
+    if (Object.values(fields).some(Boolean)) estimatedLocation = { ...fields, location_source: "netlify_ip" };
+  } catch {
+    // A missing or slow location estimate must never delay or block a signup.
+  }
+}
+void lookupEstimatedLocation();
 
 $("lead-form").addEventListener("input", (e) => {
   if (!formStarted && e.target.matches("input:not([type=checkbox])") && e.target.value.trim()) {
@@ -197,7 +199,7 @@ function validPhone(phone) {
 }
 $("lead-form").addEventListener("submit", (e) => {
   e.preventDefault();
-  if (!registrationConfigured || !attendanceEligible || campaignClosed() || sending || completed) return;
+  if (!registrationConfigured || campaignClosed() || sending || completed) return;
   const name = $("name").value.trim().replace(/\s+/g, " ");
   const phone = $("phone").value.trim();
   if (name.split(" ").length < 2) {
@@ -221,7 +223,7 @@ $("lead-form").addEventListener("submit", (e) => {
 $("edit-data").addEventListener("click", () => { if (!sending) $("confirmation").close(); });
 $("confirmation").addEventListener("cancel", (e) => { if (sending) e.preventDefault(); });
 $("confirm-submit").addEventListener("click", async () => {
-  if (!registrationConfigured || !attendanceEligible || campaignClosed() || sending || completed || !draft) return;
+  if (!registrationConfigured || campaignClosed() || sending || completed || !draft) return;
   sending = true;
   $("confirm-submit").disabled = true;
   $("edit-data").disabled = true;
@@ -231,7 +233,7 @@ $("confirm-submit").addEventListener("click", async () => {
     const response = await fetch(ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(draft),
+      body: JSON.stringify({ ...draft, ...estimatedLocation }),
       credentials: "omit",
       redirect: "follow"
     });

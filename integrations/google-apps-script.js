@@ -5,6 +5,7 @@ const COLUNAS = [
   "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_id",
   "Página de entrada", "Origem de referência", "ID do evento Lead"
 ];
+const LOCALIZACAO_COLUNAS = ["Cidade estimada (IP)", "Estado estimado (IP)", "País estimado (IP)", "Fonte da localização"];
 
 function resposta(dados) {
   return ContentService.createTextOutput(JSON.stringify(dados))
@@ -42,10 +43,20 @@ function prepararAba(aba) {
     aba.getRange(1, 1, 1, COLUNAS.length).setValues([COLUNAS]);
     aba.setFrozenRows(1);
   }
-  const atuais = aba.getRange(1, 1, 1, COLUNAS.length).getDisplayValues()[0];
-  if (atuais.some((valor, indice) => valor !== COLUNAS[indice])) {
-    throw new Error("A aba tem outra estrutura. Use uma aba vazia para a nova integração; nenhum dado foi substituído.");
+  const largura = Math.max(COLUNAS.length, aba.getLastColumn());
+  const atuais = aba.getRange(1, 1, 1, largura).getDisplayValues()[0];
+  if (COLUNAS.some((valor, indice) => valor !== atuais[indice])) {
+    throw new Error("A estrutura das primeiras colunas foi alterada. Confira os cabeçalhos originais; nenhum dado foi substituído.");
   }
+  // Append only missing location columns; preserve all user-added columns/data.
+  const faltantes = LOCALIZACAO_COLUNAS.filter((nome) => !atuais.includes(nome));
+  if (faltantes.length) {
+    const total = largura + faltantes.length;
+    if (aba.getMaxColumns() < total) aba.insertColumnsAfter(aba.getMaxColumns(), total - aba.getMaxColumns());
+    aba.getRange(1, largura + 1, 1, faltantes.length).setValues([faltantes]);
+    atuais.push(...faltantes);
+  }
+  return atuais;
 }
 
 function prepararPlanilha() {
@@ -84,7 +95,7 @@ function doPost(e) {
     trava.waitLock(30000);
     bloqueado = true;
     const aba = abaDestino();
-    prepararAba(aba);
+    const cabecalhos = prepararAba(aba);
     const ultimaLinha = aba.getLastRow();
     if (ultimaLinha > 1 && aba.getRange(2, 5, ultimaLinha - 1, 1).getDisplayValues().flat().includes(chave)) {
       return resposta({ ok: false, codigo: "DUPLICADO", mensagem: "Este telefone já está cadastrado." });
@@ -93,12 +104,19 @@ function doPost(e) {
       ? String(dados.event_id) : Utilities.getUuid();
     const linha = ultimaLinha + 1;
     if (linha > aba.getMaxRows()) aba.insertRowsAfter(aba.getMaxRows(), 1);
-    aba.getRange(linha, 4, 1, COLUNAS.length - 3).setNumberFormat("@");
-    aba.getRange(linha, 1, 1, COLUNAS.length).setValues([[
+    const valores = [
       new Date(), textoSeguro(nome, 150), idade === "" ? "" : Number(idade), textoSeguro(dados.telefone, 30), chave,
       ...["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_id"].map((key) => textoSeguro(dados[key])),
       textoSeguro(dados.landing_page, 1000), textoSeguro(dados.referrer, 500), idEvento
-    ]]);
+    ];
+    valores.length = cabecalhos.length;
+    valores.fill("", COLUNAS.length);
+    const localizacao = [dados.estimated_city, dados.estimated_state, dados.estimated_country, dados.location_source];
+    LOCALIZACAO_COLUNAS.forEach((nome, indice) => {
+      valores[cabecalhos.indexOf(nome)] = textoSeguro(localizacao[indice], 120);
+    });
+    aba.getRange(linha, 4, 1, cabecalhos.length - 3).setNumberFormat("@");
+    aba.getRange(linha, 1, 1, cabecalhos.length).setValues([valores]);
     SpreadsheetApp.flush();
     return resposta({ ok: true, codigo: "CADASTRADO", event_id: idEvento, mensagem: "Cadastro realizado com sucesso." });
   } catch (erro) {
@@ -111,5 +129,5 @@ function doPost(e) {
 
 // Public capabilities: no sheet data or credentials are exposed.
 function doGet() {
-  return resposta({ ok: true, capabilities: { age_optional: true } });
+  return resposta({ ok: true, capabilities: { age_optional: true, estimated_location: true } });
 }

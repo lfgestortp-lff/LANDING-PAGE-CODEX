@@ -1,6 +1,6 @@
 # Seletiva de Jundiaí
 
-Página independente em `/jundiai/`, com a Paleta A (marfim, carvão e vinho). Usa o mesmo `app.js` da página principal: Pixel `1801282187897715`, API de Conversões, IDs compartilhados para deduplicação, seis UTMs, confirmação, requisitos dos campos e pergunta de presença na cidade.
+Página independente em `/jundiai/`, com a Paleta A (marfim, carvão e vinho). Usa o mesmo `app.js` da página principal: Pixel `1801282187897715`, API de Conversões, IDs compartilhados para deduplicação, seis UTMs, confirmação, requisitos dos campos e cidade da seletiva em destaque, sem pergunta inicial de presença.
 
 ## Planilha conectada
 
@@ -11,3 +11,7 @@ Página independente em `/jundiai/`, com a Paleta A (marfim, carvão e vinho). U
 5. Conferir visualmente na planilha a linha “Teste Integração Jundiaí”, telefone `11900000001`, e as seis UTMs enviadas no teste; depois apagar somente essa linha. O `noindex` de rascunho foi removido. Validar o recebimento e a deduplicação de Lead no Gerenciador de Eventos antes de iniciar os anúncios.
 
 Os tokens da Meta permanecem nas Netlify Functions existentes. Os eventos identificam a página de Jundiaí pelo caminho em `event_source_url` e as campanhas pelas UTMs, sem duplicar a infraestrutura. A comparação de telefones acontece na planilha configurada para esta cidade.
+
+## Atualização de origem por IP
+
+Publicar Nova versão deste Apps Script para registrar as quatro colunas adicionais de origem estimada. O script conserva registros e colunas manuais. O endereço `/exec` pode ser mantido. O formulário não depende dessa atualização para receber novos cadastros; enquanto o script antigo estiver ativo, os novos campos não são gravados.

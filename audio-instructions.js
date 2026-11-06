@@ -8,6 +8,7 @@
   let started = false;
   let completed = false;
   let continuousPlayback = false;
+  let automaticStartAttempted = false;
   audio.controls = false;
   audio.hidden = true;
   button.hidden = false;
@@ -38,8 +39,18 @@
     continuousPlayback = false;
     audio.pause();
   }
-  document.getElementById("attendance-yes")?.addEventListener("click", () => { void playAudio(); });
+  function startOnFirstField(e) {
+    const input = e.target.closest?.("input");
+    if (automaticStartAttempted || !input || input.disabled || !e.isTrusted) return;
+    if (e.type === "keydown" && e.key.length !== 1) return;
+    automaticStartAttempted = true;
+    void playAudio();
+  }
+  const form = document.getElementById("lead-form");
+  form?.addEventListener("click", startOnFirstField);
+  form?.addEventListener("keydown", startOnFirstField);
   button.addEventListener("click", () => {
+    automaticStartAttempted = true;
     if (!audio.paused) stopAudio();
     else void playAudio();
   });
