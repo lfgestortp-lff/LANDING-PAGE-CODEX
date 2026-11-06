@@ -139,11 +139,13 @@ window.addEventListener("instruction-audio-event", (e) => {
   }
 });
 
+const entryDialog = $("entry-dialog");
 function setTracking(allowed) {
   trackingAllowed = allowed;
   trackingChoice = allowed;
   try { localStorage.setItem("tracking-consent", allowed ? "accepted" : "rejected"); } catch {}
-  $("cookie-banner").hidden = true;
+  if ($("cookie-banner")) $("cookie-banner").hidden = true;
+  entryDialog?.close();
   if (allowed) {
     if (pixelLoaded) window.fbq("consent", "grant");
     else loadPixel();
@@ -155,17 +157,31 @@ try {
   const choice = localStorage.getItem("tracking-consent");
   if (choice === "accepted" || choice === "rejected") setTracking(choice === "accepted");
 } catch {}
-$("accept-tracking").addEventListener("click", () => setTracking(true));
-$("reject-tracking").addEventListener("click", () => setTracking(false));
-$("tracking-settings").addEventListener("click", () => { $("cookie-banner").hidden = false; });
+function chooseTracking(allowed) {
+  setTracking(allowed);
+  if (entryDialog) $("name").focus({ preventScroll: true });
+}
+$("accept-tracking").addEventListener("click", () => chooseTracking(true));
+$("reject-tracking").addEventListener("click", () => chooseTracking(false));
+$("tracking-settings").addEventListener("click", () => {
+  if (entryDialog) entryDialog.showModal();
+  else $("cookie-banner").hidden = false;
+});
+entryDialog?.addEventListener("cancel", (e) => {
+  e.preventDefault();
+  if (trackingChoice === null) chooseTracking(false);
+  else entryDialog.close();
+});
 
 if (!registrationConfigured) {
   $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
   $("form-status").textContent = requiredCity && PAGE_CONFIG.city !== requiredCity
     ? "Não foi possível carregar a inscrição. Atualize a página e tente novamente."
     : "As inscrições para esta seletiva estarão disponíveis em breve.";
-  $("cookie-banner").hidden = true;
+  if ($("cookie-banner")) $("cookie-banner").hidden = true;
   $("tracking-settings").hidden = true;
+} else if (entryDialog && trackingChoice === null) {
+  entryDialog.showModal();
 }
 
 let estimatedLocation = {};

@@ -117,8 +117,14 @@ As páginas `/` e `/jundiai/` mostram “CADASTRO GRÁTIS”, “Procuramos mulh
 
 As duas páginas mantêm as URLs já usadas nos anúncios e seus destinos de planilha. Lead só ocorre após CADASTRADO, e os mesmos IDs são enviados pelo navegador e servidor. O evento ReviewData deixa de ocorrer neste fluxo, pois a etapa foi retirada. As versões `/simples/` continuam disponíveis como alternativas sem áudio. Históricos com o layout anterior podem ser recuperados pelo Git.
 
-Na página de Piracicaba, a cidade aparece em um bloco próprio com “PIRACICABA” em destaque. A tarja de experiência usa posição fixa relativa à tela desde a abertura e durante toda a rolagem, nas duas cidades. O wallpaper `assets/piracicaba-wallpaper.08606f46d6.webp` foi preparado a partir da foto enviada pela agência, com redução de exposição e uma camada escura em CSS para preservar a leitura. O WebP pesa cerca de 64 KB, tem cache longo pelo nome com hash e só é solicitado na página de Piracicaba. Jundiaí continua com fundo liso.
+Na página de Piracicaba, “PIRACICABA” aparece sozinho no topo, em dourado com brilho suave. A tarja de experiência usa posição fixa relativa à tela desde a abertura e durante toda a rolagem, nas duas cidades. O wallpaper `assets/piracicaba-wallpaper.08606f46d6.webp` foi preparado a partir da foto enviada pela agência, com redução de exposição e uma camada escura em CSS para preservar a leitura. O WebP pesa cerca de 64 KB, tem cache longo pelo nome com hash e só é solicitado na página de Piracicaba. Jundiaí continua com fundo liso.
 
 ## Fluxo de publicação autorizado pela agência
 
 Alterar, testar, fazer commit e enviar ao GitHub. Não publicar no Netlify sem pedido explícito do usuário. Em commits enviados sem autorização de deploy, incluir `[skip netlify]` na mensagem, para a integração do Netlify ignorar esse commit. Não chamar build hooks, CLI de deploy ou gatilhos de publicação. Atualizar o GitHub não significa que o site publicado mudou. A idade deve permanecer visível e opcional; simplificar a página não autoriza remover esse campo.
+
+## Entrada e preferência de medição
+
+Nas páginas principais, o bloco de consentimento após o formulário foi substituído pelo diálogo “Você quer se inscrever gratuitamente para nossa seletiva?”. O botão principal explicita a autorização de medição pela Meta; a alternativa permite a mesma inscrição sem medição. O diálogo não aceita termos silenciosamente. Sem escolha não carrega Pixel nem envia CAPI; Escape na primeira visita equivale a seguir sem medição. A preferência é salva no navegador e pode ser alterada por “Preferências de rastreamento”. Visitantes com escolha salva continuam diretamente ao formulário. As variantes `/simples/` conservam o bloco anterior.
+
+“PIRACICABA” aparece sozinho acima da copy, em dourado com brilho estático, separado da indicação de seletiva presencial. Wallpaper, idade opcional, tarja fixa e destinos por cidade permanecem.
