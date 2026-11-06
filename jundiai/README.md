@@ -1,6 +1,6 @@
 # Seletiva de Jundiaí
 
-Página independente em `/jundiai/`, com a Paleta A (marfim, carvão e vinho). Usa o mesmo `app.js` da página principal: Pixel `1801282187897715`, API de Conversões, IDs compartilhados para deduplicação, seis UTMs, confirmação, requisitos dos campos e cidade da seletiva em destaque, sem pergunta inicial de presença.
+Página independente em `/jundiai/`, com a Paleta A (marfim, carvão e vinho). Usa o mesmo `app.js` da página principal: Pixel `1801282187897715`, API de Conversões, IDs compartilhados para deduplicação, seis UTMs, envio direto, requisitos dos campos e cidade da seletiva em destaque, sem pergunta inicial de presença.
 
 ## Planilha conectada
 
@@ -15,3 +15,7 @@ Os tokens da Meta permanecem nas Netlify Functions existentes. Os eventos identi
 ## Atualização de origem por IP
 
 Publicar Nova versão deste Apps Script para registrar as quatro colunas adicionais de origem estimada. O script conserva registros e colunas manuais. O endereço `/exec` pode ser mantido. O formulário não depende dessa atualização para receber novos cadastros; enquanto o script antigo estiver ativo, os novos campos não são gravados.
+
+## Formulário principal simplificado
+
+A rota `/jundiai/` usa público 45+ e cidade em destaque, com apenas nome e WhatsApp e envio em um clique. `reviewBeforeSubmit: false` elimina a confirmação extra, preservando o receptor desta cidade. O áudio fica abaixo do botão. A comprovação dos novos arquivos no domínio depende da publicação do Netlify.

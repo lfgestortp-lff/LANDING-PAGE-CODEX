@@ -12,3 +12,7 @@ O ganho demonstrado é no peso e no carregamento completo; o LCP de texto já er
 A consulta de capacidades ao Google em cada visita foi removida depois de confirmar que ambos os receptores de produção aceitam idade opcional. A idade é opcional diretamente no HTML. A origem aproximada continua sendo consultada de forma assíncrona. O áudio mantém preload=none e seu comportamento de interação. Consentimento, validação, UTMs, IDs de deduplicação e momento de Lead não foram alterados nesta otimização.
 
 Menor peso pode ajudar a reduzir abandonos durante o carregamento. Não garante menor CPC ou CPL. O PageView da Meta continua condicionado ao aceite e não deve ser tratado como contagem completa de todos os acessos. Conferir a versão publicada e o cabeçalho de cache antes de afirmar ativação em produção.
+
+## Simplificação estrutural posterior
+
+Após a medição acima, as páginas principais passaram a usar `quick-form.css` e uma coluna centrada no público e nos dois campos. A imagem decorativa deixa de ser requisitada nessas rotas; o WebP permanece nas prévias. Os tempos da tabela correspondem à otimização anterior do layout, não a uma nova medição deste formulário simplificado.

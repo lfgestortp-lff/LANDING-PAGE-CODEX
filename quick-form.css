@@ -1,0 +1,24 @@
+body::before, body::after { content:none; background-image:none; }
+.quick-page { width:100%; max-width:520px; margin:0 auto; padding:28px 24px 20px; }
+.quick-brand { font-size:11px; color:var(--accent); font-weight:700; letter-spacing:1.5px; margin:0 0 12px; }
+.quick-page h1 { font-size:34px; line-height:1.15; letter-spacing:-1px; margin:0 0 12px; text-transform:none; }
+.quick-offer { font-size:15px; line-height:1.4; margin:0 0 8px; }
+.quick-offer strong { color:var(--accent); }
+.quick-city { color:var(--accent); font-size:15px; line-height:1.4; margin:0 0 8px; }
+.quick-experience { color:var(--muted); font-size:14px; margin:0 0 22px; }
+.quick-page input { margin-bottom:16px; }
+.quick-page .registration-cta { margin-top:2px; animation:none; }
+.quick-next { font-size:13px; color:var(--muted); line-height:1.5; margin:14px 0; }
+.quick-page .cookie-banner { position:static; transform:none; width:100%; padding:12px; margin:14px 0; box-shadow:none; flex-direction:row; gap:12px; align-items:center; }
+.quick-page .cookie-banner p { font-size:11px; line-height:1.5; }
+.quick-page .cookie-banner > div { gap:6px; flex-shrink:0; }
+.quick-page .cookie-banner button { font-size:11px; padding:8px 10px; min-height:34px; }
+.quick-note, .quick-privacy { font-size:12px; line-height:1.6; color:var(--muted); margin:14px 0; }
+.quick-page .settings { font-size:11px; margin-top:18px; }
+@media(max-width:380px) {
+  .quick-page { padding:20px; }
+  .quick-page h1 { font-size:29px; }
+  .quick-page .registration-cta { padding-inline:12px; font-size:12px; }
+  .quick-page .registration-cta span { display:none; }
+  .quick-page .cookie-banner > div { flex-direction:column; }
+}

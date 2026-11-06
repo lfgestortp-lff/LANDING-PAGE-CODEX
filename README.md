@@ -42,7 +42,7 @@ Público, gratuidade da inscrição e Piracicaba são informados logo na primeir
 
 ## Prioridade no celular
 
-Até 800px, o formulário e seu botão aparecem primeiro, com público e cidade resumidos. A explicação do contato fica depois do botão; a copy e os três passos vêm depois do cartão. No computador, a copy continua à esquerda e o formulário à direita. A ordem do HTML começa pelo formulário para acompanhar a navegação por teclado no celular. O link do Instagram foi retirado do formulário; permanece na tela mostrada ao responder Não.
+Até 800px, o formulário e seu botão aparecem primeiro, com público e cidade resumidos. A explicação do contato fica depois do botão; a copy e os três passos vêm depois do cartão. A estrutura atual usa uma única coluna para reduzir distrações também no computador. Na estrutura atual, uma chamada curta com público e cidade precede o formulário em qualquer tamanho de tela. O link do Instagram foi retirado do formulário; permanece na tela mostrada ao responder Não.
 
 ## UTMs e nova planilha
 
@@ -97,12 +97,20 @@ Eventos antigos AttendanceYes/AttendanceNo são mantidos na lista aceita pelo se
 
 ## Variante curta para comparar conversão
 
-`/simples/` (Piracicaba) e `/jundiai/simples/` (Jundiaí) usam a mesma integração com a planilha de cada cidade, Pixel, CAPI, deduplicação e origem por IP. `reviewBeforeSubmit: false` seleciona envio direto em um único botão. A configuração padrão continua com a confirmação antes de enviar.
+`/simples/` (Piracicaba) e `/jundiai/simples/` (Jundiaí) usam a mesma integração com a planilha de cada cidade, Pixel, CAPI, deduplicação e origem por IP. `reviewBeforeSubmit: false` seleciona envio direto em um único botão. A configuração padrão da biblioteca suporta revisão; as páginas principais agora selecionam envio direto por configuração explícita.
 
 A variante tem apenas nome e WhatsApp, sem imagem de fundo, áudio, campo de idade, três passos ou pop-up de confirmação. A idade é enviada vazia para os receptores já atualizados. O botão cabe na primeira tela móvel. A escolha de rastreamento aparece em um bloco após o botão e continua opcional. Sem aceite, os eventos da Meta não são enviados; não comparar custos por PageView como se representassem todas as visitas.
 
-O funil da variante é PageView → FormStart → ConfirmSubmit → Lead; não emite ReviewData porque não há revisão. Lead continua condicionado a CADASTRADO. Erros e duplicidade aparecem no próprio formulário. A coluna Página de entrada distingue variante e original; manter UTMs dos anúncios para comparar cadastros reais, não apenas eventos da Meta. Os URLs originais não foram substituídos. Não há garantia de menor CPL; é uma alternativa para teste com tráfego comparável.
+O funil da variante é PageView → FormStart → ConfirmSubmit → Lead; não emite ReviewData porque não há revisão. Lead continua condicionado a CADASTRADO. Erros e duplicidade aparecem no próprio formulário. A coluna Página de entrada distingue variante e original; manter UTMs dos anúncios para comparar cadastros reais, não apenas eventos da Meta. As alternativas têm URLs próprios; o envio direto também foi adotado nas páginas principais após a solicitação de simplificação. Não há garantia de menor CPL; é uma alternativa para teste com tráfego comparável.
 
 ## Desempenho
 
 A otimização da imagem, cache e fonte prioritária e o comparativo controlado estão em `docs/PERFORMANCE.md`. A fonte 700 é pré-carregada para o formulário; o áudio só começa após interação. A imagem atual tem hash no nome e cache longo; HTML, CSS e JavaScript continuam revalidando para receber atualizações.
+
+## Estrutura principal focada no público e no preenchimento
+
+As páginas `/` e `/jundiai/` agora mostram “Mulheres com 45 anos ou mais”, inscrição grátis e cidade antes de apenas nome completo e WhatsApp. O envio é direto, com `reviewBeforeSubmit: false` nas configurações por cidade. A idade vai vazia para os receptores já atualizados. Não há imagem de fundo, blocos de três passos ou janela extra de confirmação nas páginas principais.
+
+`quick-form.css` mantém as cores de cada cidade, sem sombras decorativas ou pulsação da ação principal, e prioriza o botão na primeira tela móvel. O áudio e seus controles ficam depois da inscrição, mantendo o comportamento pedido de início na primeira interação e pausa disponível. O consentimento da Meta continua opcional e não cobre o formulário. `data-city` impede envio para outro receptor se o arquivo de configuração da cidade falhar ao carregar.
+
+As duas páginas mantêm as URLs já usadas nos anúncios e seus destinos de planilha. Lead só ocorre após CADASTRADO, e os mesmos IDs são enviados pelo navegador e servidor. O evento ReviewData deixa de ocorrer neste fluxo, pois a etapa foi retirada. As versões `/simples/` continuam disponíveis como alternativas sem áudio. Históricos com o layout anterior podem ser recuperados pelo Git.

@@ -6,7 +6,9 @@ const REVIEW_BEFORE_SUBMIT = PAGE_CONFIG.reviewBeforeSubmit !== false;
 const ENDPOINT = Object.prototype.hasOwnProperty.call(PAGE_CONFIG, "endpoint")
   ? PAGE_CONFIG.endpoint
   : "https://script.google.com/macros/s/AKfycbwJ_n0Wy2uNNWFA7-Mfc4WkkExxpBipMEgBuMGji1PTW10UT3_HiHz8B0tpRAYbksve/exec";
-const registrationConfigured = typeof ENDPOINT === "string" && ENDPOINT.startsWith("https://");
+const requiredCity = document.body.dataset.city;
+const registrationConfigured = typeof ENDPOINT === "string" && ENDPOINT.startsWith("https://") &&
+  (!requiredCity || PAGE_CONFIG.city === requiredCity);
 const PIXEL_ID = "1801282187897715";
 const $ = (id) => document.getElementById(id);
 const attribution = {};
@@ -159,7 +161,9 @@ $("tracking-settings").addEventListener("click", () => { $("cookie-banner").hidd
 
 if (!registrationConfigured) {
   $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
-  $("form-status").textContent = "As inscrições para esta seletiva estarão disponíveis em breve.";
+  $("form-status").textContent = requiredCity && PAGE_CONFIG.city !== requiredCity
+    ? "Não foi possível carregar a inscrição. Atualize a página e tente novamente."
+    : "As inscrições para esta seletiva estarão disponíveis em breve.";
   $("cookie-banner").hidden = true;
   $("tracking-settings").hidden = true;
 }
