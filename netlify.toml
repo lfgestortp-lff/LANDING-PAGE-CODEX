@@ -12,6 +12,11 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
+  for = "/assets/piracicaba-wallpaper.08606f46d6.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
   for = "/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"

@@ -111,11 +111,13 @@ A otimização da imagem, cache e fonte prioritária e o comparativo controlado 
 
 ## Estrutura principal focada no público e no preenchimento
 
-As páginas `/` e `/jundiai/` mostram “CADASTRO GRÁTIS”, “Procuramos mulheres com mais de 45 anos” e a cidade antes do nome completo, WhatsApp e idade opcional. A marca foi retirada do topo e a ação principal diz “Fazer cadastro grátis”. Uma tarja fixa no rodapé informa “Não precisa ter experiência”; o espaço reservado e a margem de rolagem mantêm o conteúdo acessível acima dela. O envio é direto, com `reviewBeforeSubmit: false` nas configurações por cidade. A idade é enviada quando preenchida e fica vazia quando omitida. Não há imagem de fundo, blocos de três passos ou janela extra de confirmação nas páginas principais.
+As páginas `/` e `/jundiai/` mostram “CADASTRO GRÁTIS”, “Procuramos mulheres com mais de 45 anos” e a cidade antes do nome completo, WhatsApp e idade opcional. A marca foi retirada do topo e a ação principal diz “Fazer cadastro grátis”. Uma tarja fixa no rodapé informa “Não precisa ter experiência”; o espaço reservado e a margem de rolagem mantêm o conteúdo acessível acima dela. O envio é direto, com `reviewBeforeSubmit: false` nas configurações por cidade. A idade é enviada quando preenchida e fica vazia quando omitida. Piracicaba usa wallpaper da cidade; Jundiaí usa fundo liso. Não há blocos de três passos ou janela extra de confirmação nas páginas principais.
 
 `quick-form.css` mantém as cores de cada cidade, sem sombras decorativas ou pulsação da ação principal, e prioriza o botão na primeira tela móvel. O áudio tenta iniciar na abertura e repete, sem player ou botão de pausa; se o navegador bloquear o som inicial, aguarda a primeira interação. O consentimento da Meta continua opcional e não cobre o formulário. `data-city` impede envio para outro receptor se o arquivo de configuração da cidade falhar ao carregar.
 
 As duas páginas mantêm as URLs já usadas nos anúncios e seus destinos de planilha. Lead só ocorre após CADASTRADO, e os mesmos IDs são enviados pelo navegador e servidor. O evento ReviewData deixa de ocorrer neste fluxo, pois a etapa foi retirada. As versões `/simples/` continuam disponíveis como alternativas sem áudio. Históricos com o layout anterior podem ser recuperados pelo Git.
+
+Na página de Piracicaba, a cidade aparece em um bloco próprio com “PIRACICABA” em destaque. A tarja de experiência usa posição fixa relativa à tela desde a abertura e durante toda a rolagem, nas duas cidades. O wallpaper `assets/piracicaba-wallpaper.08606f46d6.webp` foi preparado a partir da foto enviada pela agência, com redução de exposição e uma camada escura em CSS para preservar a leitura. O WebP pesa cerca de 64 KB, tem cache longo pelo nome com hash e só é solicitado na página de Piracicaba. Jundiaí continua com fundo liso.
 
 ## Fluxo de publicação autorizado pela agência
 
