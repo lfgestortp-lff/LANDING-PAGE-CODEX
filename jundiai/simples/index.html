@@ -22,8 +22,16 @@
     <form id="lead-form">
       <label for="name">NOME COMPLETO</label>
       <input id="name" name="nome" autocomplete="name" autocapitalize="words" placeholder="Digite seu nome completo" minlength="3" maxlength="150" required>
-      <label for="phone">WHATSAPP</label>
-      <input id="phone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="Seu número, com DDD se puder" required>
+      <div class="contact-fields">
+        <div>
+          <label for="phone">WHATSAPP</label>
+          <input id="phone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="Ex: 1998847873" required>
+        </div>
+        <div>
+          <label for="age" id="age-label">IDADE <small>(opcional)</small></label>
+          <input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="55">
+        </div>
+      </div>
       <button type="submit" class="primary registration-cta">Quero minha inscrição grátis <span aria-hidden="true">→</span></button>
       <p id="form-status" class="status" role="status" aria-live="polite"></p>
     </form>

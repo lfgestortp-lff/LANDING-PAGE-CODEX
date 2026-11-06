@@ -99,7 +99,7 @@ Eventos antigos AttendanceYes/AttendanceNo são mantidos na lista aceita pelo se
 
 `/simples/` (Piracicaba) e `/jundiai/simples/` (Jundiaí) usam a mesma integração com a planilha de cada cidade, Pixel, CAPI, deduplicação e origem por IP. `reviewBeforeSubmit: false` seleciona envio direto em um único botão. A configuração padrão da biblioteca suporta revisão; as páginas principais agora selecionam envio direto por configuração explícita.
 
-A variante tem apenas nome e WhatsApp, sem imagem de fundo, áudio, campo de idade, três passos ou pop-up de confirmação. A idade é enviada vazia para os receptores já atualizados. O botão cabe na primeira tela móvel. A escolha de rastreamento aparece em um bloco após o botão e continua opcional. Sem aceite, os eventos da Meta não são enviados; não comparar custos por PageView como se representassem todas as visitas.
+A variante tem nome, WhatsApp e idade opcional, sem imagem de fundo, áudio, três passos ou pop-up de confirmação. O botão cabe na primeira tela móvel. A escolha de rastreamento aparece em um bloco após o botão e continua opcional. Sem aceite, os eventos da Meta não são enviados; não comparar custos por PageView como se representassem todas as visitas.
 
 O funil da variante é PageView → FormStart → ConfirmSubmit → Lead; não emite ReviewData porque não há revisão. Lead continua condicionado a CADASTRADO. Erros e duplicidade aparecem no próprio formulário. A coluna Página de entrada distingue variante e original; manter UTMs dos anúncios para comparar cadastros reais, não apenas eventos da Meta. As alternativas têm URLs próprios; o envio direto também foi adotado nas páginas principais após a solicitação de simplificação. Não há garantia de menor CPL; é uma alternativa para teste com tráfego comparável.
 
@@ -109,8 +109,12 @@ A otimização da imagem, cache e fonte prioritária e o comparativo controlado 
 
 ## Estrutura principal focada no público e no preenchimento
 
-As páginas `/` e `/jundiai/` agora mostram “Mulheres com 45 anos ou mais”, inscrição grátis e cidade antes de apenas nome completo e WhatsApp. O envio é direto, com `reviewBeforeSubmit: false` nas configurações por cidade. A idade vai vazia para os receptores já atualizados. Não há imagem de fundo, blocos de três passos ou janela extra de confirmação nas páginas principais.
+As páginas `/` e `/jundiai/` agora mostram “Mulheres com 45 anos ou mais”, inscrição grátis e cidade antes do nome completo, WhatsApp e idade opcional. O envio é direto, com `reviewBeforeSubmit: false` nas configurações por cidade. A idade é enviada quando preenchida e fica vazia quando omitida. Não há imagem de fundo, blocos de três passos ou janela extra de confirmação nas páginas principais.
 
 `quick-form.css` mantém as cores de cada cidade, sem sombras decorativas ou pulsação da ação principal, e prioriza o botão na primeira tela móvel. O áudio e seus controles ficam depois da inscrição, mantendo o comportamento pedido de início na primeira interação e pausa disponível. O consentimento da Meta continua opcional e não cobre o formulário. `data-city` impede envio para outro receptor se o arquivo de configuração da cidade falhar ao carregar.
 
 As duas páginas mantêm as URLs já usadas nos anúncios e seus destinos de planilha. Lead só ocorre após CADASTRADO, e os mesmos IDs são enviados pelo navegador e servidor. O evento ReviewData deixa de ocorrer neste fluxo, pois a etapa foi retirada. As versões `/simples/` continuam disponíveis como alternativas sem áudio. Históricos com o layout anterior podem ser recuperados pelo Git.
+
+## Fluxo de publicação autorizado pela agência
+
+Alterar, testar, fazer commit e enviar ao GitHub. Não publicar no Netlify sem pedido explícito do usuário. Em commits enviados sem autorização de deploy, incluir `[skip netlify]` na mensagem, para a integração do Netlify ignorar esse commit. Não chamar build hooks, CLI de deploy ou gatilhos de publicação. Atualizar o GitHub não significa que o site publicado mudou. A idade deve permanecer visível e opcional; simplificar a página não autoriza remover esse campo.

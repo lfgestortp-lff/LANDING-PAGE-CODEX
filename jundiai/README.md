@@ -18,4 +18,4 @@ Publicar Nova versão deste Apps Script para registrar as quatro colunas adicion
 
 ## Formulário principal simplificado
 
-A rota `/jundiai/` usa público 45+ e cidade em destaque, com apenas nome e WhatsApp e envio em um clique. `reviewBeforeSubmit: false` elimina a confirmação extra, preservando o receptor desta cidade. O áudio fica abaixo do botão. A comprovação dos novos arquivos no domínio depende da publicação do Netlify.
+A rota `/jundiai/` usa público 45+ e cidade em destaque, com nome, WhatsApp e idade opcional e envio em um clique. `reviewBeforeSubmit: false` elimina a confirmação extra, preservando o receptor desta cidade. O áudio fica abaixo do botão. A comprovação dos novos arquivos no domínio depende da publicação do Netlify.
