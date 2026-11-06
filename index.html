@@ -7,6 +7,7 @@
   <title>Seletiva de modelos 45+ em Piracicaba | Inscrição grátis</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
+  <script src="audio-instructions.js" defer></script>
 </head>
 <body>
   <main class="layout" id="registration-page">
@@ -24,6 +25,15 @@
         <p id="phone-help" class="hint">Informe seu WhatsApp. O DDD é opcional; inclua se puder.</p>
         <button type="submit" class="primary registration-cta">Quero minha inscrição grátis <span aria-hidden="true">→</span></button>
         <p class="free-note">A gratuidade se refere à inscrição na seletiva.</p>
+        <div class="audio-instructions">
+          <audio id="instruction-audio" controls preload="none" aria-label="Instruções para fazer sua inscrição" src="assets/instrucoes-inscricao.mp3"></audio>
+          <button id="audio-toggle" class="audio-button" type="button" aria-controls="instruction-audio" aria-pressed="false" hidden>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zm12-1a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg>
+            <span id="audio-toggle-label">Ouvir instruções de inscrição</span>
+            <small>19s</small>
+          </button>
+          <p id="audio-status" class="hint" role="status" aria-live="polite"></p>
+        </div>
         <p id="form-status" class="status" role="status" aria-live="polite"></p>
       </form>
       <p class="footnote"><svg aria-hidden="true" viewBox="0 0 16 16"><path fill="currentColor" d="M4 6V4a4 4 0 0 1 8 0v2h1a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1zm2 0h4V4a2 2 0 0 0-4 0v2z"/></svg> Seus dados serão enviados à equipe da agência para contato sobre a seletiva pelo WhatsApp.</p>

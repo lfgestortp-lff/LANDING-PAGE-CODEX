@@ -84,3 +84,14 @@ test("accepts the agency custom domain and www with a stale Netlify URL", async 
   }
   assert.equal((await handler(request({...base,event_source_url:"https://example.org/"},{origin:"https://example.org"}))).statusCode,403);
 });
+test("accepts instruction audio start and completion without treating them as Lead", async () => {
+  const received=[];
+  const handler=createHandler({env,now:()=>now,fetchImpl:async(url,options)=>{
+    received.push(JSON.parse(options.body).data[0].event_name);
+    return {ok:true,status:200,json:async()=>({events_received:1})};
+  }});
+  for(const event_name of ['AudioInstructionsStart','AudioInstructionsComplete']) {
+    assert.equal((await handler(request({...base,event_name}))).statusCode,200);
+  }
+  assert.deepEqual(received,['AudioInstructionsStart','AudioInstructionsComplete']);
+});

@@ -130,6 +130,12 @@ function event(name, id = eventId(), standard = false, time = Math.floor(Date.no
     pendingEvents.push({ name, id, standard, time });
   }
 }
+window.addEventListener("instruction-audio-event", (e) => {
+  if (["AudioInstructionsStart", "AudioInstructionsComplete"].includes(e.detail?.name)) {
+    event(e.detail.name);
+  }
+});
+
 function setTracking(allowed) {
   trackingAllowed = allowed;
   trackingChoice = allowed;

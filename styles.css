@@ -156,3 +156,11 @@ body::after { opacity:.25; }
   .card .registration-cta { padding:14px 12px; font-size:12px; gap:8px; }
   .card .registration-cta span { display:none; }
 }
+
+.audio-instructions { margin-top:16px; }
+.audio-instructions audio { width:100%; }
+.audio-button { width:100%; display:flex; align-items:center; gap:10px; padding:12px; min-height:48px; border:1px solid var(--border); border-radius:12px; background:transparent; color:var(--accent); text-align:left; font-size:14px; line-height:1.4; }
+.audio-button:hover { border-color:var(--accent); }
+.audio-button svg { width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.audio-button small { font-size:12px; margin-left:auto; white-space:nowrap; }
+#audio-status:empty { display:none; }

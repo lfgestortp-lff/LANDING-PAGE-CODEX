@@ -78,3 +78,9 @@ Para ativar em produção, atualizar o código inteiro e publicar **Nova versão
 - Jundiaí: `jundiai/google-apps-script.js`, com ID próprio já preenchido.
 
 Apps Script → Implantar → Gerenciar implantações → lápis → Nova versão → Implantar. Conservar a URL atual. Após cada atualização, conferir GET JSON com a capacidade e testar um cadastro autorizado sem idade. A prévia `/paleta-a/` já demonstra idade opcional e continua sem enviar dados.
+
+## Áudio de instruções
+
+`assets/instrucoes-inscricao.mp3` é a gravação fornecida pela agência, com aproximadamente 19 segundos e 326 KB. O botão fica depois do botão de inscrição, preservando campos e CTA prioritários no celular. `audio-instructions.js` permite ouvir, pausar, continuar e repetir por ação explícita, sem autoplay ou loop. `preload=none` evita baixar o MP3 antes da interação; se o JavaScript falhar, há controles nativos como alternativa. Ao sair da aba, a reprodução é pausada.
+
+Falhas do arquivo não bloqueiam o formulário. O rastreamento usa `AudioInstructionsStart` e `AudioInstructionsComplete`, uma vez por página em cada estágio, pelos mesmos canais e regras de consentimento do formulário. Pausar/continuar ou repetir não cria novos Starts/Completes. Cada evento compartilha seu ID entre Pixel e API de Conversões; reproduzir não emite Lead. A prévia `/paleta-a/` também tem áudio, mas continua sem rastreamento e sem envio de cadastros.

@@ -1,4 +1,4 @@
-const EVENTS = new Set(["PageView", "AttendanceYes", "AttendanceNo", "FormStart", "ReviewData", "ConfirmSubmit", "Lead"]);
+const EVENTS = new Set(["PageView", "AttendanceYes", "AttendanceNo", "FormStart", "ReviewData", "ConfirmSubmit", "Lead", "AudioInstructionsStart", "AudioInstructionsComplete"]);
 const reply = (statusCode, payload) => ({
   statusCode,
   headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
