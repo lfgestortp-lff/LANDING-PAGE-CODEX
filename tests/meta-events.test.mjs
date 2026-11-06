@@ -95,3 +95,18 @@ test("accepts instruction audio start and completion without treating them as Le
   }
   assert.deepEqual(received,['AudioInstructionsStart','AudioInstructionsComplete']);
 });
+
+test("forwards free signup click with its deduplication ID only with consent", async () => {
+  const received=[];
+  const handler=createHandler({env,now:()=>now,fetchImpl:async(url,options)=>{
+    received.push(JSON.parse(options.body).data[0]);
+    return {ok:true,status:200,json:async()=>({events_received:1})};
+  }});
+  const click={...base,event_name:"FreeSignupClick"};
+  assert.equal((await handler(request({...click,consent:false}))).statusCode,403);
+  assert.equal(received.length,0);
+  assert.equal((await handler(request(click))).statusCode,200);
+  assert.equal(received.length,1);
+  assert.equal(received[0].event_name,"FreeSignupClick");
+  assert.equal(received[0].event_id,click.event_id);
+});

@@ -30,3 +30,9 @@ Faça nova implantação depois de configurar as variáveis. O Netlify fornece `
 ## Nova planilha
 
 A nova URL fornecida é `https://script.google.com/macros/s/AKfycbwJ_n0Wy2uNNWFA7-Mfc4WkkExxpBipMEgBuMGji1PTW10UT3_HiHz8B0tpRAYbksve/exec`. O acesso público foi corrigido. O teste vazio retornou DADOS_INVALIDOS. Uma linha “Teste Integração UTMs” foi enviada com as seis UTMs e retornou CADASTRADO com o mesmo ID de evento. As tentativas com o mesmo telefone sem DDD e com outro DDD retornaram DUPLICADO. `ENDPOINT` em `app.js` já aponta para essa implantação. Conferir visualmente a linha e as UTMs na nova planilha e apagar somente o cadastro de teste. O envio real da página publicada depende de atualizar a implantação do Netlify.
+
+## Clique no pop-up de cadastro grátis
+
+`FreeSignupClick` mede o clique em “Cadastrar grátis” no pop-up das páginas principais, uma vez por carregamento da página, após a permissão de medição. Abrir a página com preferência aceita salva, reabrir as preferências e aceitar outra vez na mesma página não cria outro clique. “Continuar sem medição” não envia esse evento. Pixel e CAPI compartilham o ID para deduplicação, sem dados pessoais do formulário. O evento requer a publicação conjunta de `app.js` e da função atualizada, somente quando houver autorização de deploy.
+
+Usar o clique como etapa do funil e `Lead` como resultado para otimização: Lead continua condicionado ao retorno CADASTRADO, nunca ao clique. Não somar cliques e Leads como se fossem cadastros. Uma conversão personalizada pode filtrar Lead pelo URL da cidade; uma regra simples de conversão personalizada não combina dois eventos diferentes como uma sequência. O funil é PageView → FreeSignupClick (quando há clique no pop-up) → FormStart → ConfirmSubmit → Lead. Visitantes com preferência salva entram direto no formulário e podem gerar Lead sem novo FreeSignupClick.

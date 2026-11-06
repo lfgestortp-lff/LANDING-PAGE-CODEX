@@ -140,6 +140,7 @@ window.addEventListener("instruction-audio-event", (e) => {
 });
 
 const entryDialog = $("entry-dialog");
+let freeSignupClicked = false;
 function setTracking(allowed) {
   trackingAllowed = allowed;
   trackingChoice = allowed;
@@ -159,7 +160,13 @@ try {
 } catch {}
 function chooseTracking(allowed) {
   setTracking(allowed);
-  if (entryDialog) $("name").focus({ preventScroll: true });
+  if (entryDialog) {
+    if (allowed && !freeSignupClicked) {
+      freeSignupClicked = true;
+      event("FreeSignupClick");
+    }
+    $("name").focus({ preventScroll: true });
+  }
 }
 $("accept-tracking").addEventListener("click", () => chooseTracking(true));
 $("reject-tracking").addEventListener("click", () => chooseTracking(false));
