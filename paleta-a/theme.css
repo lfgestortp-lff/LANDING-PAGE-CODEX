@@ -15,7 +15,7 @@
 body { color-scheme:light; }
 body::before {
   background-color:var(--background);
-  background-image:linear-gradient(180deg,rgba(255,249,240,.86),rgba(255,249,240,.95) 65%,var(--background)),url("../assets/mulheres-45plus-fundo.png");
+  background-image:linear-gradient(180deg,rgba(255,249,240,.86),rgba(255,249,240,.95) 65%,var(--background)),url("../assets/mulheres-45plus-fundo.fdf87ce01a.webp");
   background-size:cover;
 }
 body::after { display:none; }

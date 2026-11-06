@@ -266,24 +266,3 @@ async function submitLead() {
     if ($("edit-data")) $("edit-data").disabled = false;
   }
 }
-
-// Keep the live form compatible with older Apps Script deployments during rollout.
-// No personal data or campaign parameters are sent in this read-only request.
-async function configureOptionalAge() {
-  if (!registrationConfigured || !$("age")) return;
-  try {
-    const response = await fetch(ENDPOINT, {
-      method: "GET", credentials: "omit", redirect: "follow", cache: "no-store",
-      signal: AbortSignal.timeout(6000)
-    });
-    if (!response.ok || !response.headers.get("content-type")?.includes("application/json")) return;
-    const result = await response.json();
-    if (result.ok === true && result.capabilities?.age_optional === true) {
-      $("age").required = false;
-      $("age-label").textContent = "IDADE (OPCIONAL)";
-    }
-  } catch {
-    // The old receiver still requires age; retain that validation until updated.
-  }
-}
-void configureOptionalAge();

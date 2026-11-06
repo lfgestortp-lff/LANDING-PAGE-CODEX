@@ -4,3 +4,14 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# Content-hashed photo: safe to retain across repeat visits.
+[[headers]]
+  for = "/assets/mulheres-45plus-fundo.fdf87ce01a.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

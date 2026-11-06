@@ -34,7 +34,7 @@ O formulário abre diretamente, sem pergunta de cidade nem bloqueio por distânc
 
 ## Fundo ilustrativo
 
-`assets/mulheres-45plus-fundo.png` é uma composição gerada por IA com três mulheres fictícias, desfocada e mesclada em degradê. Não representa modelos reais da agência. O fundo é decorativo, usa camadas de contraste no CSS e enquadramento específico para celular.
+`assets/mulheres-45plus-fundo.fdf87ce01a.webp` é a versão otimizada de uma composição gerada por IA com três mulheres fictícias, desfocada e mesclada em degradê. Não representa modelos reais da agência. O fundo é decorativo, usa camadas de contraste no CSS e enquadramento específico para celular.
 
 ## Copy e confiança
 
@@ -70,7 +70,7 @@ O site `https://produtoraangels.netlify.app/` retornou HTTP 200 com formulário 
 
 A copy informa que a participante pode morar em outra cidade, desde que consiga se deslocar para a seletiva presencial. O pop-up foi retirado, e residência ou localização estimada não condicionam o cadastro.
 
-A idade passa a opcional quando o receptor confirma `capabilities.age_optional` em um GET público e sem dados pessoais. Até publicar o Apps Script novo, o navegador mantém a idade obrigatória para não enviar cadastros incompatíveis com o receptor antigo. Omissão fica vazia na planilha e aparece como “Não informada” na confirmação; idades preenchidas continuam validadas de 1 a 120. Pixel, IDs e UTMs são preservados.
+A idade é opcional diretamente no HTML. A capacidade foi confirmada nas duas implantações de Apps Script antes de remover a consulta que era feita em cada visita durante a migração. Omissão fica vazia na planilha e aparece como “Não informada” na confirmação; idades preenchidas continuam validadas de 1 a 120. Pixel, IDs e UTMs são preservados.
 
 Para ativar em produção, atualizar o código inteiro e publicar **Nova versão** nas implantações existentes:
 
@@ -102,3 +102,7 @@ Eventos antigos AttendanceYes/AttendanceNo são mantidos na lista aceita pelo se
 A variante tem apenas nome e WhatsApp, sem imagem de fundo, áudio, campo de idade, três passos ou pop-up de confirmação. A idade é enviada vazia para os receptores já atualizados. O botão cabe na primeira tela móvel. A escolha de rastreamento aparece em um bloco após o botão e continua opcional. Sem aceite, os eventos da Meta não são enviados; não comparar custos por PageView como se representassem todas as visitas.
 
 O funil da variante é PageView → FormStart → ConfirmSubmit → Lead; não emite ReviewData porque não há revisão. Lead continua condicionado a CADASTRADO. Erros e duplicidade aparecem no próprio formulário. A coluna Página de entrada distingue variante e original; manter UTMs dos anúncios para comparar cadastros reais, não apenas eventos da Meta. Os URLs originais não foram substituídos. Não há garantia de menor CPL; é uma alternativa para teste com tráfego comparável.
+
+## Desempenho
+
+A otimização da imagem, cache e fonte prioritária e o comparativo controlado estão em `docs/PERFORMANCE.md`. A fonte 700 é pré-carregada para o formulário; o áudio só começa após interação. A imagem atual tem hash no nome e cache longo; HTML, CSS e JavaScript continuam revalidando para receber atualizações.
