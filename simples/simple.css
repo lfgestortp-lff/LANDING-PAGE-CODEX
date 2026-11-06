@@ -1,0 +1,20 @@
+body { background:#FFF9F0; }
+body::before, body::after { content:none; background-image:none; }
+.simple-page { width:100%; max-width:520px; margin:0 auto; padding:30px 24px 16px; }
+.simple-brand { color:var(--accent); font-size:11px; font-weight:700; letter-spacing:1.6px; margin:0 0 16px; }
+.simple-page h1 { font-size:32px; line-height:1.2; letter-spacing:-1px; margin-bottom:14px; text-transform:none; }
+.simple-city { display:inline-block; background:#f2e1e5; color:#6B2039; font-size:13px; font-weight:700; border-radius:6px; padding:6px 10px; margin:0 0 14px; }
+.simple-intro { font-size:16px; color:var(--text); line-height:1.5; margin:0 0 24px; }
+.simple-page input { margin-bottom:18px; }
+.simple-page .registration-cta { margin-top:2px; animation:none; }
+.simple-next { font-size:14px; line-height:1.6; margin:18px 0 12px; }
+.simple-note, .simple-privacy { font-size:12px; color:var(--muted); line-height:1.6; margin:12px 0; }
+.cookie-banner { position:static; transform:none; width:100%; max-width:none; margin:18px 0; box-shadow:none; gap:12px; flex-direction:column; align-items:stretch; }
+.cookie-banner > div { justify-content:flex-end; }
+.settings { font-size:11px; }
+@media(max-width:380px) {
+  .simple-page { padding:20px 20px 12px; }
+  .simple-page h1 { font-size:28px; }
+  .simple-page .registration-cta { font-size:12px; padding-inline:12px; }
+  .simple-page .registration-cta span { display:none; }
+}

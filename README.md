@@ -94,3 +94,11 @@ Falhas do arquivo não bloqueiam o formulário. O rastreamento usa `AudioInstruc
 **Para gravar na planilha:** atualizar e publicar Nova versão dos dois Apps Scripts. O código acrescenta as colunas ausentes ao final, preservando as primeiras 14, os registros e eventuais colunas manuais. Até essa atualização, a implantação anterior continua salvando os cadastros e ignorando os novos campos. `doGet` passa a informar `capabilities.estimated_location: true`. A preparação de cabeçalhos pode ser executada por `prepararPlanilha`, sem apagar a planilha.
 
 Eventos antigos AttendanceYes/AttendanceNo são mantidos na lista aceita pelo servidor para compatibilidade com histórico/páginas já abertas, mas não são mais emitidos pelo novo formulário. O funil atual começa em PageView e FormStart.
+
+## Variante curta para comparar conversão
+
+`/simples/` (Piracicaba) e `/jundiai/simples/` (Jundiaí) usam a mesma integração com a planilha de cada cidade, Pixel, CAPI, deduplicação e origem por IP. `reviewBeforeSubmit: false` seleciona envio direto em um único botão. A configuração padrão continua com a confirmação antes de enviar.
+
+A variante tem apenas nome e WhatsApp, sem imagem de fundo, áudio, campo de idade, três passos ou pop-up de confirmação. A idade é enviada vazia para os receptores já atualizados. O botão cabe na primeira tela móvel. A escolha de rastreamento aparece em um bloco após o botão e continua opcional. Sem aceite, os eventos da Meta não são enviados; não comparar custos por PageView como se representassem todas as visitas.
+
+O funil da variante é PageView → FormStart → ConfirmSubmit → Lead; não emite ReviewData porque não há revisão. Lead continua condicionado a CADASTRADO. Erros e duplicidade aparecem no próprio formulário. A coluna Página de entrada distingue variante e original; manter UTMs dos anúncios para comparar cadastros reais, não apenas eventos da Meta. Os URLs originais não foram substituídos. Não há garantia de menor CPL; é uma alternativa para teste com tráfego comparável.

@@ -1,6 +1,7 @@
 "use strict";
 const PAGE_CONFIG = window.LANDING_PAGE_CONFIG || {};
 const CITY = PAGE_CONFIG.city || "Piracicaba";
+const REVIEW_BEFORE_SUBMIT = PAGE_CONFIG.reviewBeforeSubmit !== false;
 // An explicitly empty endpoint must never fall back to another city's sheet.
 const ENDPOINT = Object.prototype.hasOwnProperty.call(PAGE_CONFIG, "endpoint")
   ? PAGE_CONFIG.endpoint
@@ -212,7 +213,11 @@ $("lead-form").addEventListener("submit", (e) => {
     $("phone").reportValidity();
     return;
   }
-  draft = { nome: name, idade: $("age").value, telefone: phone, ...attribution, event_id: eventId() };
+  draft = { nome: name, idade: $("age")?.value || "", telefone: phone, ...attribution, event_id: eventId() };
+  if (!REVIEW_BEFORE_SUBMIT) {
+    void submitLead();
+    return;
+  }
   $("review-name").textContent = draft.nome;
   $("review-age").textContent = draft.idade ? draft.idade + " anos" : "Não informada";
   $("review-phone").textContent = draft.telefone;
@@ -220,14 +225,17 @@ $("lead-form").addEventListener("submit", (e) => {
   event("ReviewData");
   $("confirmation").showModal();
 });
-$("edit-data").addEventListener("click", () => { if (!sending) $("confirmation").close(); });
-$("confirmation").addEventListener("cancel", (e) => { if (sending) e.preventDefault(); });
-$("confirm-submit").addEventListener("click", async () => {
+$("edit-data")?.addEventListener("click", () => { if (!sending) $("confirmation").close(); });
+$("confirmation")?.addEventListener("cancel", (e) => { if (sending) e.preventDefault(); });
+$("confirm-submit")?.addEventListener("click", submitLead);
+async function submitLead() {
   if (!registrationConfigured || campaignClosed() || sending || completed || !draft) return;
+  const submitButton = REVIEW_BEFORE_SUBMIT ? $("confirm-submit") : $("lead-form").querySelector('button[type="submit"]');
+  const submitStatus = REVIEW_BEFORE_SUBMIT ? $("submit-status") : $("form-status");
   sending = true;
-  $("confirm-submit").disabled = true;
-  $("edit-data").disabled = true;
-  $("submit-status").textContent = "Enviando seus dados…";
+  submitButton.disabled = true;
+  if ($("edit-data")) $("edit-data").disabled = true;
+  submitStatus.textContent = "Enviando seus dados…";
   event("ConfirmSubmit");
   try {
     const response = await fetch(ENDPOINT, {
@@ -242,27 +250,27 @@ $("confirm-submit").addEventListener("click", async () => {
     if (result.ok === true && result.codigo === "CADASTRADO") {
       completed = true;
       event("Lead", result.event_id || draft.event_id, true);
-      $("confirmation").close();
+      $("confirmation")?.close();
       $("form-status").textContent = `Inscrição grátis realizada! A equipe da Produtora Angels entrará em contato pelo WhatsApp informado para explicar os próximos passos da seletiva presencial em ${CITY}.`;
       $("lead-form").querySelectorAll("input, button").forEach((input) => { input.disabled = true; });
     } else if (result.codigo === "DUPLICADO") {
-      $("submit-status").textContent = "Este telefone já está cadastrado. Você pode voltar e conferir o número informado.";
+      submitStatus.textContent = "Este telefone já está cadastrado. Confira o número informado.";
     } else {
-      $("submit-status").textContent = result.mensagem || "Não foi possível enviar. Tente novamente.";
+      submitStatus.textContent = result.mensagem || "Não foi possível enviar. Tente novamente.";
     }
   } catch {
-    $("submit-status").textContent = "Não foi possível confirmar o envio. Confira sua conexão e tente novamente. Se o cadastro já tiver sido salvo, a verificação evitará um novo registro.";
+    submitStatus.textContent = "Não foi possível confirmar o envio. Confira sua conexão e tente novamente. Se o cadastro já tiver sido salvo, a verificação evitará um novo registro.";
   } finally {
     sending = false;
-    $("confirm-submit").disabled = completed;
-    $("edit-data").disabled = false;
+    submitButton.disabled = completed;
+    if ($("edit-data")) $("edit-data").disabled = false;
   }
-});
+}
 
 // Keep the live form compatible with older Apps Script deployments during rollout.
 // No personal data or campaign parameters are sent in this read-only request.
 async function configureOptionalAge() {
-  if (!registrationConfigured) return;
+  if (!registrationConfigured || !$("age")) return;
   try {
     const response = await fetch(ENDPOINT, {
       method: "GET", credentials: "omit", redirect: "follow", cache: "no-store",
