@@ -75,7 +75,7 @@ function doPost(e) {
     if (nome.length < 3 || nome.length > 150 || nome.split(" ").length < 2) {
       return resposta({ ok: false, codigo: "DADOS_INVALIDOS", mensagem: "Informe seu nome completo." });
     }
-    if (!/^\d{1,3}$/.test(idade) || Number(idade) < 1 || Number(idade) > 120) {
+    if (idade !== "" && (!/^\d{1,3}$/.test(idade) || Number(idade) < 1 || Number(idade) > 120)) {
       return resposta({ ok: false, codigo: "DADOS_INVALIDOS", mensagem: "Informe uma idade válida." });
     }
     let chave;
@@ -95,7 +95,7 @@ function doPost(e) {
     if (linha > aba.getMaxRows()) aba.insertRowsAfter(aba.getMaxRows(), 1);
     aba.getRange(linha, 4, 1, COLUNAS.length - 3).setNumberFormat("@");
     aba.getRange(linha, 1, 1, COLUNAS.length).setValues([[
-      new Date(), textoSeguro(nome, 150), Number(idade), textoSeguro(dados.telefone, 30), chave,
+      new Date(), textoSeguro(nome, 150), idade === "" ? "" : Number(idade), textoSeguro(dados.telefone, 30), chave,
       ...["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_id"].map((key) => textoSeguro(dados[key])),
       textoSeguro(dados.landing_page, 1000), textoSeguro(dados.referrer, 500), idEvento
     ]]);
@@ -107,4 +107,9 @@ function doPost(e) {
   } finally {
     if (bloqueado) trava.releaseLock();
   }
+}
+
+// Public capabilities: no sheet data or credentials are exposed.
+function doGet() {
+  return resposta({ ok: true, capabilities: { age_optional: true } });
 }

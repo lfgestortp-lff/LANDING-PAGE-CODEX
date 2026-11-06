@@ -19,7 +19,7 @@
         <input id="name" name="nome" autocomplete="name" placeholder="Digite seu nome completo" minlength="3" maxlength="150" required>
         <div class="fields">
           <div><label for="phone">WHATSAPP</label><input id="phone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="Ex: 1998847873" aria-describedby="phone-help" required></div>
-          <div><label for="age">IDADE</label><input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="Ex: 55" required></div>
+          <div><label for="age" id="age-label">IDADE</label><input id="age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="Ex: 55" required></div>
         </div>
         <p id="phone-help" class="hint">Informe seu WhatsApp. O DDD é opcional; inclua se puder.</p>
         <button type="submit" class="primary registration-cta">Quero minha inscrição grátis <span aria-hidden="true">→</span></button>
@@ -31,7 +31,7 @@
     <section class="intro" aria-labelledby="title">
       <p class="eyebrow">PIRACICABA · INSCRIÇÃO GRÁTIS</p>
       <h1 id="title">Seletiva de modelos<br>para <span>mulheres 45+</span></h1>
-      <p class="description">Sua história merece destaque. Faça sua inscrição grátis na seletiva presencial da Produtora Angels, em <strong>Piracicaba</strong>, para mulheres a partir dos 45 anos.</p>
+      <p class="description">Sua história merece destaque. Faça sua inscrição grátis na seletiva presencial da Produtora Angels, em <strong>Piracicaba</strong>, para mulheres a partir dos 45 anos. Você não precisa morar na cidade para se inscrever.</p>
       <div class="deadline" id="campaign-countdown" aria-label="Prazo de inscrições" hidden>
         <p class="deadline-label" id="countdown-label">AS VAGAS ENCERRAM EM:</p>
         <div class="countdown" aria-hidden="true">
@@ -59,15 +59,15 @@
     <div class="unavailable-card">
       <p class="eyebrow">OBRIGADA PELO INTERESSE</p>
       <h2 id="unavailable-title" tabindex="-1">Infelizmente, esta seletiva não é para você neste momento.</h2>
-      <p class="subtext">A participação exige presença em Piracicaba. Mas você pode acompanhar a Produtora Angels no Instagram e conhecer nosso trabalho.</p>
+      <p class="subtext">Você pode morar em outra cidade, mas precisa conseguir comparecer à seletiva presencial em Piracicaba. Acompanhe a Produtora Angels no Instagram e conheça nosso trabalho.</p>
       <a class="primary instagram-link" href="https://instagram.com/produtoraangels">Conhecer o Instagram <span aria-hidden="true">→</span></a>
     </div>
   </section>
   <dialog id="attendance" aria-labelledby="attendance-title" aria-describedby="attendance-description">
     <div class="dialog-content">
       <p class="eyebrow">SELETIVA PRESENCIAL</p>
-      <h2 id="attendance-title">Você consegue ir até <mark class="city-highlight">Piracicaba</mark> para a seletiva?</h2>
-      <p id="attendance-description" class="subtext">Esta seletiva é para mulheres a partir dos 45 anos e acontece presencialmente em Piracicaba. A inscrição é grátis.</p>
+      <h2 id="attendance-title">A seletiva será em <mark class="city-highlight">Piracicaba</mark>. Você consegue se deslocar até lá?</h2>
+      <p id="attendance-description" class="subtext">Você não precisa morar em Piracicaba para participar. Mulheres de outras cidades também são bem-vindas, desde que possam comparecer presencialmente. A inscrição é grátis.</p>
       <div class="attendance-actions">
         <button id="attendance-yes" class="attendance-choice" type="button" autofocus>Sim</button>
         <button id="attendance-no" class="attendance-choice" type="button">Não</button>

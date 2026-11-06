@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
-function service(configured = true) {
+function service(configured = true, sourceFile = 'integrations/google-apps-script.js', sheetId = 'test-sheet') {
   const rows = [];
   let locked = false;
   const sheet = {
@@ -18,11 +18,11 @@ function service(configured = true) {
     console: { error() {} },
     PropertiesService: { getScriptProperties: () => ({getProperty: key => key === 'PLANILHA_ID' && configured ? 'test-sheet' : null}) },
     LockService: { getScriptLock: () => ({waitLock() { assert.equal(locked, false); locked = true; }, releaseLock() { locked = false; }}) },
-    SpreadsheetApp: { openById: id => { assert.equal(id, 'test-sheet'); return {getSheets: () => [sheet]}; }, flush() {} },
+    SpreadsheetApp: { openById: id => { assert.equal(id, sheetId); return {getSheets: () => [sheet]}; }, flush() {} },
     Utilities: {getUuid: () => 'test-event-id'},
     ContentService: { MimeType: {JSON:'application/json'}, createTextOutput: text => ({setMimeType: () => text}) }
   });
-  vm.runInContext(fs.readFileSync('integrations/google-apps-script.js', 'utf8'), ctx);
+  vm.runInContext(fs.readFileSync(sourceFile, 'utf8'), ctx);
   return {rows, ctx, post: payload => JSON.parse(ctx.doPost({postData:{contents:JSON.stringify(payload)}})), unlocked: () => !locked};
 }
 const lead = {nome:'Maria Silva', idade:55, telefone:'11987654321', utm_source:'facebook', utm_campaign:'Mulheres45', event_id:'lead-test-1'};
@@ -61,3 +61,28 @@ test('requires a configured destination and preserves an incompatible sheet', ()
   assert.deepEqual(s.rows,[['Dados existentes']]);
   assert.ok(s.unlocked());
 });
+
+for (const [file, sheetId] of [
+  ['integrations/google-apps-script.js','test-sheet'],
+  ['jundiai/google-apps-script.js','1i-bQQo3lU5CAbpS3iSvRcCNISxsfwYE4qzLrzkSsjnk']
+]) {
+  test(file + ': omitted age saves a blank cell, preserves attribution and still blocks duplicates', () => {
+    for(const idade of [undefined, null, '']) {
+      const s=service(true,file,sheetId);
+      const response=s.post({...lead,idade});
+      assert.equal(response.codigo,'CADASTRADO');
+      assert.equal(s.rows[1][2],'');
+      assert.equal(s.rows[1][5],'facebook');
+      assert.equal(s.rows[1][13],'lead-test-1');
+      assert.equal(s.post({...lead,idade,telefone:'987654321'}).codigo,'DUPLICADO');
+      assert.equal(s.rows.length,2);
+    }
+  });
+  test(file + ': provided ages must still be valid; capability lookup does not modify the sheet', () => {
+    const s=service(true,file,sheetId);
+    assert.equal(JSON.parse(s.ctx.doGet()).capabilities.age_optional,true);
+    assert.equal(s.rows.length,0);
+    for(const idade of ['0','121','55.5','abc']) assert.equal(s.post({...lead,idade}).codigo,'DADOS_INVALIDOS');
+    assert.equal(s.rows.length,0);
+  });
+}

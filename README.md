@@ -65,3 +65,16 @@ O site `https://produtoraangels.netlify.app/` retornou HTTP 200 com formulário 
 ## Jundiaí
 
 `/jundiai/` usa a paleta clara, a mesma lógica de rastreamento e a cidade Jundiaí. A implantação própria de Jundiaí foi fornecida, validada por cadastro e tentativas duplicadas e conectada em `jundiai/config.js`. Envios e rastreamento estão liberados para esta cidade; não há fallback para a planilha de Piracicaba. `jundiai/google-apps-script.js` já contém o ID da planilha e a aba 0. Não reutilizar o projeto de Apps Script de Piracicaba. A página principal e a prévia de cores continuam independentes.
+
+## Idade opcional e visitantes de outras cidades
+
+A pergunta inicial informa que a participante pode morar em outra cidade, desde que consiga se deslocar para a seletiva presencial. A resposta Não continua encerrando o formulário; a regra não exige residência local.
+
+A idade passa a opcional quando o receptor confirma `capabilities.age_optional` em um GET público e sem dados pessoais. Até publicar o Apps Script novo, o navegador mantém a idade obrigatória para não enviar cadastros incompatíveis com o receptor antigo. Omissão fica vazia na planilha e aparece como “Não informada” na confirmação; idades preenchidas continuam validadas de 1 a 120. Pixel, IDs e UTMs são preservados.
+
+Para ativar em produção, atualizar o código inteiro e publicar **Nova versão** nas implantações existentes:
+
+- Piracicaba: `integrations/google-apps-script.js`; preservar a propriedade PLANILHA_ID existente.
+- Jundiaí: `jundiai/google-apps-script.js`, com ID próprio já preenchido.
+
+Apps Script → Implantar → Gerenciar implantações → lápis → Nova versão → Implantar. Conservar a URL atual. Após cada atualização, conferir GET JSON com a capacidade e testar um cadastro autorizado sem idade. A prévia `/paleta-a/` já demonstra idade opcional e continua sem enviar dados.

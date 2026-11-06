@@ -33,7 +33,7 @@ $("lead-form").addEventListener("submit", e => {
     return;
   }
   $("review-name").textContent = name;
-  $("review-age").textContent = $("age").value + " anos";
+  $("review-age").textContent = $("age").value ? $("age").value + " anos" : "Não informada";
   $("review-phone").textContent = $("phone").value;
   $("confirmation").showModal();
 });
