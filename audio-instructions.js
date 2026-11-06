@@ -7,6 +7,7 @@
   if (!audio || !button || !label || !status) return;
   let started = false;
   let completed = false;
+  let continuousPlayback = false;
   audio.controls = false;
   audio.hidden = true;
   button.hidden = false;
@@ -16,23 +17,31 @@
   function pausedLabel() {
     return audio.ended ? "Ouvir novamente" : audio.currentTime > 0 ? "Continuar instruções" : "Ouvir instruções de inscrição";
   }
-  button.addEventListener("click", async () => {
+  async function playAudio() {
+    continuousPlayback = true;
     status.textContent = "";
-    if (!audio.paused) {
-      audio.pause();
-      return;
-    }
     button.disabled = true;
     try {
       if (audio.ended) audio.currentTime = 0;
       await audio.play();
     } catch {
+      const wasRequested = continuousPlayback;
+      continuousPlayback = false;
       button.setAttribute("aria-pressed", "false");
       label.textContent = pausedLabel();
-      status.textContent = "Não foi possível reproduzir. Toque para tentar novamente ou continue pelo formulário.";
+      if (wasRequested) status.textContent = "Não foi possível reproduzir. Toque para tentar novamente ou continue pelo formulário.";
     } finally {
       button.disabled = false;
     }
+  }
+  function stopAudio() {
+    continuousPlayback = false;
+    audio.pause();
+  }
+  document.getElementById("attendance-yes")?.addEventListener("click", () => { void playAudio(); });
+  button.addEventListener("click", () => {
+    if (!audio.paused) stopAudio();
+    else void playAudio();
   });
   audio.addEventListener("play", () => {
     label.textContent = "Pausar instruções";
@@ -53,14 +62,21 @@
       completed = true;
       emit("AudioInstructionsComplete");
     }
+    // Restart explicitly so completion can be recorded once before repeating.
+    if (continuousPlayback && !document.hidden) {
+      audio.currentTime = 0;
+      void playAudio();
+    }
   });
   audio.addEventListener("error", () => {
+    continuousPlayback = false;
     button.disabled = false;
     button.setAttribute("aria-pressed", "false");
     label.textContent = "Tentar ouvir instruções";
     status.textContent = "O áudio não está disponível agora. Você pode continuar pelo formulário.";
   });
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden && !audio.paused) audio.pause();
+    if (document.hidden) stopAudio();
   });
+  window.addEventListener("pagehide", stopAudio);
 })();
