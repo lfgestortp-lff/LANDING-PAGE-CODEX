@@ -1,93 +1,70 @@
 "use strict";
 (() => {
   const audio = document.getElementById("instruction-audio");
-  const button = document.getElementById("audio-toggle");
-  const label = document.getElementById("audio-toggle-label");
   const status = document.getElementById("audio-status");
-  if (!audio || !button || !label || !status) return;
+  if (!audio || !status) return;
   let started = false;
   let completed = false;
-  let continuousPlayback = false;
-  let automaticStartAttempted = false;
-  audio.controls = false;
-  audio.hidden = true;
-  button.hidden = false;
+  let playPending = false;
+  let unavailable = false;
+  let leaving = false;
+
   function emit(name) {
     window.dispatchEvent(new CustomEvent("instruction-audio-event", { detail: { name } }));
   }
-  function pausedLabel() {
-    return audio.ended ? "Ouvir novamente" : audio.currentTime > 0 ? "Continuar instruções" : "Ouvir instruções de inscrição";
-  }
   async function playAudio() {
-    continuousPlayback = true;
-    status.textContent = "";
-    button.disabled = true;
+    if (unavailable || leaving || playPending || (!audio.paused && !audio.ended)) return;
+    playPending = true;
     try {
       if (audio.ended) audio.currentTime = 0;
+      // Call play inside the gesture handler when autoplay needs user activation.
       await audio.play();
-    } catch {
-      const wasRequested = continuousPlayback;
-      continuousPlayback = false;
-      button.setAttribute("aria-pressed", "false");
-      label.textContent = pausedLabel();
-      if (wasRequested) status.textContent = "Não foi possível reproduzir. Toque para tentar novamente ou continue pelo formulário.";
+      status.textContent = "";
+    } catch (error) {
+      // Blocked autoplay waits for a real interaction, independently of tracking.
+      if (!["NotAllowedError", "AbortError"].includes(error.name)) {
+        status.textContent = "O áudio não está disponível agora. Você pode continuar pelo formulário.";
+      }
     } finally {
-      button.disabled = false;
+      playPending = false;
     }
   }
-  function stopAudio() {
-    continuousPlayback = false;
-    audio.pause();
-  }
-  function startOnFirstField(e) {
-    const input = e.target.closest?.("input");
-    if (automaticStartAttempted || !input || input.disabled || !e.isTrusted) return;
-    if (e.type === "keydown" && e.key.length !== 1) return;
-    automaticStartAttempted = true;
+  function startOnInteraction(e) {
+    if (!e.isTrusted || (e.type === "keydown" && (e.ctrlKey || e.metaKey || e.altKey))) return;
     void playAudio();
   }
-  const form = document.getElementById("lead-form");
-  form?.addEventListener("click", startOnFirstField);
-  form?.addEventListener("keydown", startOnFirstField);
-  button.addEventListener("click", () => {
-    automaticStartAttempted = true;
-    if (!audio.paused) stopAudio();
-    else void playAudio();
-  });
-  audio.addEventListener("play", () => {
-    label.textContent = "Pausar instruções";
-    button.setAttribute("aria-pressed", "true");
+  document.addEventListener("click", startOnInteraction, { passive: true });
+  document.addEventListener("touchend", startOnInteraction, { passive: true });
+  document.addEventListener("keydown", startOnInteraction);
+
+  audio.addEventListener("playing", () => {
     if (!started) {
       started = true;
       emit("AudioInstructionsStart");
     }
   });
-  audio.addEventListener("pause", () => {
-    label.textContent = pausedLabel();
-    button.setAttribute("aria-pressed", "false");
-  });
   audio.addEventListener("ended", () => {
-    label.textContent = "Ouvir novamente";
-    button.setAttribute("aria-pressed", "false");
     if (!completed) {
       completed = true;
       emit("AudioInstructionsComplete");
     }
-    // Restart explicitly so completion can be recorded once before repeating.
-    if (continuousPlayback && !document.hidden) {
-      audio.currentTime = 0;
-      void playAudio();
-    }
+    // Native loop suppresses ended; restart explicitly to record completion once.
+    void playAudio();
   });
   audio.addEventListener("error", () => {
-    continuousPlayback = false;
-    button.disabled = false;
-    button.setAttribute("aria-pressed", "false");
-    label.textContent = "Tentar ouvir instruções";
+    unavailable = true;
     status.textContent = "O áudio não está disponível agora. Você pode continuar pelo formulário.";
   });
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) stopAudio();
+    if (!document.hidden) void playAudio();
   });
-  window.addEventListener("pagehide", stopAudio);
+  window.addEventListener("pagehide", () => {
+    leaving = true;
+    audio.pause();
+  });
+  window.addEventListener("pageshow", () => {
+    leaving = false;
+    void playAudio();
+  });
+  void playAudio();
 })();
