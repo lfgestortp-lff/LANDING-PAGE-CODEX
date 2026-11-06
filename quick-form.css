@@ -1,11 +1,9 @@
 body::before, body::after { content:none; background-image:none; }
 .quick-page { width:100%; max-width:520px; margin:0 auto; padding:28px 24px 20px; }
-.quick-brand { font-size:11px; color:var(--accent); font-weight:700; letter-spacing:1.5px; margin:0 0 12px; }
-.quick-page h1 { font-size:34px; line-height:1.15; letter-spacing:-1px; margin:0 0 12px; text-transform:none; }
-.quick-offer { font-size:15px; line-height:1.4; margin:0 0 8px; }
-.quick-offer strong { color:var(--accent); }
-.quick-city { color:var(--accent); font-size:15px; line-height:1.4; margin:0 0 8px; }
-.quick-experience { color:var(--muted); font-size:14px; margin:0 0 22px; }
+.quick-free { display:inline-block; padding:6px 12px; border-radius:6px; background:var(--cta); color:var(--cta-text); font-size:14px; font-weight:700; letter-spacing:.6px; margin:0 0 14px; }
+.quick-page h1 { font-size:clamp(25px, 7.6vw, 34px); line-height:1.15; letter-spacing:-1px; margin:0 0 12px; text-transform:none; }
+.quick-city { color:var(--text); font-size:15px; line-height:1.4; margin:0 0 22px; }
+.quick-city strong { color:var(--accent); }
 .quick-page input { margin-bottom:16px; }
 .quick-page .registration-cta { margin-top:2px; animation:none; }
 .quick-next { font-size:13px; color:var(--muted); line-height:1.5; margin:14px 0; }
@@ -17,8 +15,16 @@ body::before, body::after { content:none; background-image:none; }
 .quick-page .settings { font-size:11px; margin-top:18px; }
 @media(max-width:380px) {
   .quick-page { padding:20px; }
-  .quick-page h1 { font-size:29px; }
+  .quick-free { margin-bottom:12px; }
+  .quick-city { margin-bottom:16px; }
   .quick-page .registration-cta { padding-inline:12px; font-size:12px; }
   .quick-page .registration-cta span { display:none; }
   .quick-page .cookie-banner > div { flex-direction:column; }
 }
+
+html { scroll-padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)); }
+body { padding-bottom:calc(64px + env(safe-area-inset-bottom, 0px)); }
+.quick-page input, .quick-page button { scroll-margin-bottom:calc(80px + env(safe-area-inset-bottom, 0px)); }
+.experience-strip { position:fixed; inset:auto 0 0; z-index:4; background:var(--accent); color:var(--accent-text); text-align:center; padding:12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
+.experience-strip p { margin:0; font-size:16px; line-height:1.4; font-weight:700; }
+.age-highlight { white-space:nowrap; }
