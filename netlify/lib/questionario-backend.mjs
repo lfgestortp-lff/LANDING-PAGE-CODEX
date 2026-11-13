@@ -5,6 +5,9 @@ export async function register(request,token){
  if(request.headers.get('origin')!==new URL(request.url).origin)return json({error:'Recarregue a página e tente novamente.'},403);
  if(!token)return json({error:'Inscrições temporariamente indisponíveis. Tente novamente mais tarde.'},503);
  const body=await request.text();if(body.length>4096)return json({error:'Dados inválidos.'},413);
+ let data;try{data=JSON.parse(body);}catch{return json({error:'Dados inválidos.'},400);}
+ const age=String(data?.age??'').trim().match(/^(\d{1,3})(?:\s*anos?)?$/i);
+ if(!age||Number(age[1])<1||Number(age[1])>120)return json({error:'Digite sua idade. Pode escrever 52 ou 52 anos.'},400);
  try{
  const upstream=await fetch(BACKEND+'/api/inscricao',{method:'POST',redirect:'error',headers:{'Content-Type':'application/json','Origin':BACKEND,'OAI-Sites-Authorization':'Bearer '+token},body,signal:AbortSignal.timeout(15000)});
  if(!upstream.headers.get('content-type')?.includes('application/json'))throw Error();

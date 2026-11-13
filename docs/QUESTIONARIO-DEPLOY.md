@@ -14,4 +14,4 @@ A variável foi configurada pela agência e a página principal foi publicada pe
 
 O rastreamento preparado no novo questionário é pelo navegador. A função CAPI antiga continua disponível para as páginas que já a utilizavam; não foi conectada ao novo formulário nesta alteração.
 
-A idade permanece opcional conforme AGENTS.md. O backend do Sites aceita idade vazia como campo vazio e interpreta 52 anos como 52.
+A idade é obrigatória na página principal de Piracicaba, conforme a nova instrução do usuário. O endpoint da Netlify rejeita idade vazia, mas aceita 52 anos. Jundiaí e variantes não mudam.

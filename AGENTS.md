@@ -11,3 +11,7 @@ The user requires changes to be edited, tested, committed and pushed to GitHub w
 # Form requirements
 
 Name and WhatsApp are required. Age must remain visible and optional on both city pages and signup variants. Simplification does not authorize deleting the age field. Keep the per-city spreadsheet destinations separate.
+
+# Current Piracicaba questionnaire
+
+The user explicitly made age required for the new main Piracicaba questionnaire. Keep accepting natural input such as `52 anos`. The existing optional-age rule still applies to Jundiaí and older variants.
