@@ -14,4 +14,4 @@ Não mesclar/publicar a página principal antes de configurar essa variável e v
 
 O rastreamento preparado no novo questionário é pelo navegador. A função CAPI antiga continua disponível para as páginas que já a utilizavam; não foi conectada ao novo formulário nesta alteração.
 
-A idade permanece opcional conforme AGENTS.md. Antes da publicação, o backend do Sites precisa aceitar a idade vazia; a versão anterior exige idade. Não publicar sem resolver essa compatibilidade.
+A idade permanece opcional conforme AGENTS.md. O backend do Sites aceita idade vazia como campo vazio e interpreta 52 anos como 52.
