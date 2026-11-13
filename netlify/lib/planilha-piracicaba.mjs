@@ -1,5 +1,5 @@
 // URL pública /exec do Apps Script, a preencher somente após verificar a implantação.
-export const SHEETS_RECEIVER_URL = '';
+export const SHEETS_RECEIVER_URL = 'https://script.google.com/macros/s/AKfycbzcrCWbHL_gJa74ryQyFKILj7MLLszIX9zsww98dAT66FORHZ9htKaYD_heU6FcuE4j/exec';
 export const SPREADSHEET_ID = '1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg';
 
 export async function registerInSheets(request,data,endpoint) {

@@ -19,3 +19,7 @@ A idade é obrigatória na página principal de Piracicaba, conforme a nova inst
 ## Promoção da versão em tela única
 
 Após aprovação do link de teste e pedido explícito de deploy, a página principal passa a usar o mesmo painel de `/tela-unica/`: sem progresso visual, título ampliado e 45 anos destacado. Mantém pergunta, campo e ações na área visível, idade obrigatória e a API existente. Jundiaí permanece intacta.
+
+## Destino em Google Sheets
+
+Integração preparada para a planilha 1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg, aba Página1 (0). O novo receptor foi implantado e verificado. A publicação desta alteração troca o destino dos novos cadastros da base Sites para essa planilha, mantendo idade obrigatória, validação, duplicidade com DDD e Lead somente após confirmação. Ver integrations/planilha-nova-piracicaba/README.md. Histórico de dois cadastros migrado com autorização explícita.

@@ -1,31 +1,22 @@
-# Planilha nova de Piracicaba
+# Planilha de inscrições de Piracicaba
 
 Destino: https://docs.google.com/spreadsheets/d/1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg/edit
-Aba: Página1, sheetId 0. Cabeçalhos A1:H1 preparados e verificados pela integração do Google Sheets. Fuso: America/Sao_Paulo.
+Aba Página1, sheetId 0, oito colunas A:H, fuso America/Sao_Paulo.
 
-## Ativação
+## Integração
 
-1. Na planilha, abrir Extensões > Apps Script.
-2. Substituir o conteúdo padrão pelo arquivo Code.gs desta pasta, inteiro, e salvar.
-3. Executar prepararPlanilha e autorizar usando a conta com acesso à planilha.
-4. Implantar > Nova implantação > Aplicativo da Web.
-5. Executar como a conta proprietária; acesso Qualquer pessoa.
-6. Copiar a URL pública terminada em /exec e enviar ao responsável pela integração.
+O Apps Script Code.gs foi implantado pela agência. A saúde confirmou a planilha correta, a aba 0 e ready true. Um POST real confirmou CADASTRADO com ID de inscrição e a linha foi lida na planilha. A publicação da API está em andamento.
 
-Antes de ativar, verificar doGet: ok e ready true, spreadsheetId igual ao destino e sheetId 0. Preencher SHEETS_RECEIVER_URL em netlify/lib/planilha-piracicaba.mjs somente com a implantação verificada. Publicar apenas com autorização de deploy do usuário e conferir gravação real na planilha.
+SHEETS_RECEIVER_URL em netlify/lib/planilha-piracicaba.mjs seleciona o novo receptor. A planilha torna-se o destino dos novos cadastros e a fonte da verificação de telefone duplicado com DDD. Não há fallback silencioso para outra base em caso de falha. O Lead depende de confirmação CADASTRADO da planilha exata e recebe o ID retornado. Nome, idade, celular, comparecimento, cidade, data e página de origem são gravados. Não são enviados dados pessoais como parâmetros do Pixel.
 
-Enquanto SHEETS_RECEIVER_URL estiver vazia, a API continua usando a base Sites atual. A preparação deste código não conecta automaticamente a planilha. Ao ativar, a planilha passa a ser a fonte dos novos cadastros, com validação e duplicidade pelo telefone completo com DDD. Não há fallback silencioso para outra base quando a gravação na planilha falhar. Lead depende de confirmação CADASTRADO da planilha exata, com ID de inscrição retornado.
+Dois cadastros anteriores foram transferidos com autorização explícita do usuário e verificados por ID, nome, telefone e comparecimento. Os dados pessoais não estão no repositório. O histórico permanece também na base Sites. Jundiaí e variantes antigas não foram alteradas.
 
-Registros anteriores permanecem na base Sites. Para transferir o histórico e preservar a comparação de duplicidade contra esse histórico, fazer uma migração verificada antes da troca. Não copiar dados pessoais para o repositório. Jundiaí e variantes antigas continuam com seus destinos anteriores.
+## Manutenção do Apps Script
 
-## Verificação
+Alterar o código exige salvar e atualizar a implantação em Implantar > Gerenciar implantações > Editar > Nova versão > Implantar. Executar como a conta proprietária e manter acesso Qualquer pessoa. O ID da planilha é validado também na API da Netlify para evitar gravação no destino errado.
+
+## Testes
 
 node --test tests/planilha-nova-piracicaba.test.cjs
 
-Testa serviços simulados: gravação das oito colunas, idade natural como 52 anos, disponibilidade Sim/Não, nome igual com telefone diferente, bloqueio de telefone duplicado com e sem formatação e +55, obrigatoriedade, integridade de cabeçalhos, trava concorrente e confirmação do destino pelo servidor.
-
-A planilha nativa foi preparada; Apps Script e gravação real ainda aguardam a implantação da agência. Não afirmar integração ativa antes da confirmação da gravação real e publicação da API.
-
-## Troca da planilha pela agência
-
-Novo destino: 1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg, aba Página1 (0). O endpoint fornecido `https://script.google.com/macros/s/AKfycbzcrCWbHL_gJa74ryQyFKILj7MLLszIX9zsww98dAT66FORHZ9htKaYD_heU6FcuE4j/exec` ainda respondeu com o ID da planilha anterior ao ser conferido. Não ativar até atualizar SPREADSHEET_ID no Apps Script e publicar uma nova versão da implantação. Manter a URL da integração vazia no site até a confirmação do novo destino.
+Serviços simulados verificam obrigatoriedade, 52 anos, Sim/Não, telefone normalizado com DDD e +55, nome igual com outro telefone, concorrência, cabeçalhos e destino. A verificação em produção deve criar apenas registros técnicos identificáveis, sem enviar eventos Lead à Meta, e removê-los após conferir os IDs.
