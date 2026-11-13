@@ -27,3 +27,7 @@ Integração preparada para a planilha 1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f
 ## Privacidade na planilha do cliente
 
 A planilha usa Status do cadastro = Recebido. A resposta de disponibilidade permanece somente na base privada Sites e não é enviada ao Google. O cliente terá acesso somente como leitor. A nova integração aguarda a implantação do receptor piracicaba-status-v2 e a publicação coordenada da API privada e da Netlify; não confundir o status da planilha já ajustada com envio automático ativo. Ver integrations/planilha-nova-piracicaba/README.md.
+
+## Integração verificada em produção
+
+A integração foi ativada e validada com gravação real pela API pública: cadastro na planilha exata com Recebido e comparecimento somente na base privada. Repetição do mesmo ID não duplicou; nova tentativa com mesmo telefone e outro ID retornou 409. Registros técnicos removidos da planilha e da base privada; nenhum Lead de teste enviado. Dois registros anteriores conferidos nas duas bases, sem pendências nessa comparação. Ver integrations/planilha-nova-piracicaba/README.md para os detalhes atuais, que substituem as notas antigas de ativação pendente.
