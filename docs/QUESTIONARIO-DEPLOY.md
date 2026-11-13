@@ -4,13 +4,13 @@ Esta alteração substitui apenas a entrada principal de Piracicaba pelo questio
 
 O Pixel é 1801282187897715. Lead é emitido somente após confirmação de cadastro pelo servidor. A nova interface usa os eventos FormStarted, FormStepViewed e FormStepCompleted.
 
-## Dependência antes de publicar
+## Configuração de publicação
 
 A nova API `/api/inscricao` encaminha para a base de inscrições do Sites, preservando a regra de telefone com DDD. Não usa a planilha antiga na página principal. As variantes antigas e Jundiaí continuam com seus destinos anteriores.
 
 Configurar `SITES_BACKEND_TOKEN` nas variáveis de ambiente de Functions da Netlify com a credencial do backend Sites. Nunca incluir a credencial no repositório, no HTML ou em comentários. Sem a variável, a função retorna 503 e não confirma inscrição.
 
-Não mesclar/publicar a página principal antes de configurar essa variável e verificar o envio. A alteração permanece em uma branch com `[skip netlify]` até essa configuração.
+A variável foi configurada pela agência e a página principal foi publicada pelo commit 998104a69e3e543b733e82cefa0a541658ee9a84. Em produção, a API retornou a validação esperada (HTTP 400) em uma solicitação deliberadamente inválida, comprovando o acesso ao backend sem inserir cadastro. O teste de navegador em 360 px percorreu as quatro etapas, aceitou 52 anos e verificou erro, nova tentativa e preservação das respostas. Nenhum Lead falso foi emitido. A página de Jundiaí continuou retornando HTTP 200. O teste não criou cadastro real nem verificou uma nova linha gravada.
 
 O rastreamento preparado no novo questionário é pelo navegador. A função CAPI antiga continua disponível para as páginas que já a utilizavam; não foi conectada ao novo formulário nesta alteração.
 
