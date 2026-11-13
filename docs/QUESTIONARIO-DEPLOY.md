@@ -23,3 +23,7 @@ Após aprovação do link de teste e pedido explícito de deploy, a página prin
 ## Destino em Google Sheets
 
 Integração preparada para a planilha 1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg, aba Página1 (0). O novo receptor foi implantado e verificado. A publicação desta alteração troca o destino dos novos cadastros da base Sites para essa planilha, mantendo idade obrigatória, validação, duplicidade com DDD e Lead somente após confirmação. Ver integrations/planilha-nova-piracicaba/README.md. Histórico de dois cadastros migrado com autorização explícita.
+
+## Privacidade na planilha do cliente
+
+A planilha usa Status do cadastro = Recebido. A resposta de disponibilidade permanece somente na base privada Sites e não é enviada ao Google. O cliente terá acesso somente como leitor. A nova integração aguarda a implantação do receptor piracicaba-status-v2 e a publicação coordenada da API privada e da Netlify; não confundir o status da planilha já ajustada com envio automático ativo. Ver integrations/planilha-nova-piracicaba/README.md.

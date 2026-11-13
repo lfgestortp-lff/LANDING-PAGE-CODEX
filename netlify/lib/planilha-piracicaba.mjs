@@ -8,11 +8,11 @@ export async function registerInSheets(request,data,endpoint) {
   let source=new URL(request.url).origin+'/';
   try{const ref=new URL(request.headers.get('referer')||source);if(ref.origin===new URL(request.url).origin)source=ref.origin+ref.pathname;}catch{}
   try{
-    const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:data.name,age:data.age,phone:data.phone,attendance:data.attendance,source_page:source}),redirect:'follow',signal:AbortSignal.timeout(25000)});
+    const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:data.name,age:data.age,phone:data.phone,event_id:data.eventId,source_page:source}),redirect:'follow',signal:AbortSignal.timeout(25000)});
     if(!response.ok)throw Error();
     const result=await response.json();
-    if(result.ok===true && result.codigo==='CADASTRADO' && result.spreadsheetId===SPREADSHEET_ID && result.sheetId===0 && typeof result.eventId==='string' && result.eventId.length>0)return json({ok:true,eventId:result.eventId},200);
-    const messages={DUPLICADO:['Este celular já possui uma inscrição. Não é necessário se inscrever novamente.',409],DADOS_INVALIDOS:['Confira seu nome completo, idade, celular com DDD e resposta sobre comparecimento.',400]};
+    if(result.ok===true && result.codigo==='CADASTRADO' && result.status==='Recebido' && result.version==='piracicaba-status-v2' && result.spreadsheetId===SPREADSHEET_ID && result.sheetId===0 && typeof result.eventId==='string' && result.eventId.length>0)return json({ok:true,eventId:result.eventId},200);
+    const messages={DUPLICADO:['Este celular já possui uma inscrição. Não é necessário se inscrever novamente.',409],DADOS_INVALIDOS:['Confira seu nome completo, idade, celular com DDD.',400]};
     if(messages[result.codigo]){const [error,status]=messages[result.codigo];return json({error},status);}
     throw Error();
   }catch{return json({error:'Não foi possível confirmar sua inscrição na planilha. Suas respostas continuam aqui. Tente novamente.'},503);}

@@ -1,22 +1,33 @@
-# Planilha de inscrições de Piracicaba
+# Planilha de cadastro de Piracicaba — status
 
 Destino: https://docs.google.com/spreadsheets/d/1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg/edit
-Aba Página1, sheetId 0, oito colunas A:H, fuso America/Sao_Paulo.
+Aba Página1, sheetId 0. Oito colunas A:H, fuso America/Sao_Paulo.
 
-## Integração
+## Privacidade do comparecimento
 
-O Apps Script Code.gs foi implantado pela agência. A saúde confirmou a planilha correta, a aba 0 e ready true. Um POST real confirmou CADASTRADO com ID de inscrição e a linha foi lida na planilha. A publicação da API está em andamento.
+A coluna E é Status do cadastro, sempre Recebido para inscrições confirmadas. Não revela disponibilidade. A resposta Sim/Não fica exclusivamente na base privada Sites. O cliente terá acesso à planilha somente como leitor, conforme escolha explícita do usuário; não alterar permissões sem instrução e destinatário.
 
-SHEETS_RECEIVER_URL em netlify/lib/planilha-piracicaba.mjs seleciona o novo receptor. A planilha torna-se o destino dos novos cadastros e a fonte da verificação de telefone duplicado com DDD. Não há fallback silencioso para outra base em caso de falha. O Lead depende de confirmação CADASTRADO da planilha exata e recebe o ID retornado. Nome, idade, celular, comparecimento, cidade, data e página de origem são gravados. Não são enviados dados pessoais como parâmetros do Pixel.
+O arquivo Code.gs desta pasta é a versão `piracicaba-status-v2`. O receptor recebe nome, idade, celular com DDD, ID e página de origem. A API não envia attendance ao Google. Data, cidade e status são preenchidos pelo receptor. O ID da inscrição mantém a mesma linha em novas tentativas.
 
-Dois cadastros anteriores foram transferidos com autorização explícita do usuário e verificados por ID, nome, telefone e comparecimento. Os dados pessoais não estão no repositório. O histórico permanece também na base Sites. Jundiaí e variantes antigas não foram alteradas.
+Os dois cadastros históricos foram transferidos com autorização explícita e verificados na planilha. A exportação atual contém apenas Status do cadastro = Recebido. As respostas originais permanecem na base privada. Nenhum dado pessoal está no repositório. O registro técnico de teste foi removido.
 
-## Manutenção do Apps Script
+## Estado e próxima etapa
 
-Alterar o código exige salvar e atualizar a implantação em Implantar > Gerenciar implantações > Editar > Nova versão > Implantar. Executar como a conta proprietária e manter acesso Qualquer pessoa. O ID da planilha é validado também na API da Netlify para evitar gravação no destino errado.
+A planilha já tem os novos cabeçalhos e valores. A ativação automática está pendente: atualizar o Apps Script com Code.gs inteiro, salvar e usar Implantar > Gerenciar implantações > Editar > Nova versão > Implantar. Executar como a conta proprietária, acesso Qualquer pessoa. Pode manter a mesma URL /exec.
+
+Antes de publicar a API da Netlify, verificar doGet com ready true, o ID desta planilha, sheetId 0, version piracicaba-status-v2 e receives_attendance false. Publicar também o backend privado com suporte a registrationId e repetição idempotente (preparado no checkout Sites). Não publicar o novo cliente/API com o backend privado antigo, que ainda gera um ID diferente em cada tentativa.
+
+## Fluxo
+
+1. O navegador gera um registrationId por preenchimento e mantém o mesmo ID nas tentativas dessa página, sem guardar campos pessoais no armazenamento local.
+2. A API confirma o registro na base privada, incluindo comparecimento.
+3. A API encaminha apenas os dados permitidos ao receptor da planilha, usando o mesmo ID. Não há attendance no payload do Google.
+4. A API só confirma a inscrição e permite Lead após CADASTRADO na planilha correta, na versão status-v2, com status Recebido. Falhas não geram Lead; nova tentativa reutiliza o ID e não duplica a inscrição.
+
+Uma tentativa interrompida após gravação privada e antes da confirmação na planilha pode permanecer apenas na base privada; não deve ser tratada como inscrição confirmada ao visitante. Os testes cobrem a recuperação na mesma página. Jundiaí e variantes antigas mantêm suas integrações.
 
 ## Testes
 
 node --test tests/planilha-nova-piracicaba.test.cjs
 
-Serviços simulados verificam obrigatoriedade, 52 anos, Sim/Não, telefone normalizado com DDD e +55, nome igual com outro telefone, concorrência, cabeçalhos e destino. A verificação em produção deve criar apenas registros técnicos identificáveis, sem enviar eventos Lead à Meta, e removê-los após conferir os IDs.
+Sete testes cobrem status sem disponibilidade, obrigatoriedade, DDD, duplicidade, cabeçalhos, trava, destino e falha/recuperação entre as duas bases. O backend privado tem teste de repetição do ID no checkout Sites. Testes de navegador nas duas variantes confirmaram visual inalterado, estabilidade do ID após erro e apenas um Lead após sucesso simulado. Não foram enviados Leads de teste à Meta.
