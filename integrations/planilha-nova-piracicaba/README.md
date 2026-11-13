@@ -1,6 +1,6 @@
 # Planilha nova de Piracicaba
 
-Destino: https://docs.google.com/spreadsheets/d/1HlyEQP3DLqKy9Jo3Qwz8MlWmRPSS3SAd0dmJSc_YsYI/edit
+Destino: https://docs.google.com/spreadsheets/d/1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg/edit
 Aba: Página1, sheetId 0. Cabeçalhos A1:H1 preparados e verificados pela integração do Google Sheets. Fuso: America/Sao_Paulo.
 
 ## Ativação
@@ -25,3 +25,7 @@ node --test tests/planilha-nova-piracicaba.test.cjs
 Testa serviços simulados: gravação das oito colunas, idade natural como 52 anos, disponibilidade Sim/Não, nome igual com telefone diferente, bloqueio de telefone duplicado com e sem formatação e +55, obrigatoriedade, integridade de cabeçalhos, trava concorrente e confirmação do destino pelo servidor.
 
 A planilha nativa foi preparada; Apps Script e gravação real ainda aguardam a implantação da agência. Não afirmar integração ativa antes da confirmação da gravação real e publicação da API.
+
+## Troca da planilha pela agência
+
+Novo destino: 1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg, aba Página1 (0). O endpoint fornecido `https://script.google.com/macros/s/AKfycbzcrCWbHL_gJa74ryQyFKILj7MLLszIX9zsww98dAT66FORHZ9htKaYD_heU6FcuE4j/exec` ainda respondeu com o ID da planilha anterior ao ser conferido. Não ativar até atualizar SPREADSHEET_ID no Apps Script e publicar uma nova versão da implantação. Manter a URL da integração vazia no site até a confirmação do novo destino.

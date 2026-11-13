@@ -1,6 +1,6 @@
 // URL pública /exec do Apps Script, a preencher somente após verificar a implantação.
 export const SHEETS_RECEIVER_URL = '';
-export const SPREADSHEET_ID = '1HlyEQP3DLqKy9Jo3Qwz8MlWmRPSS3SAd0dmJSc_YsYI';
+export const SPREADSHEET_ID = '1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg';
 
 export async function registerInSheets(request,data,endpoint) {
   const json=(value,status)=>Response.json(value,{status,headers:{'Cache-Control':'no-store'}});

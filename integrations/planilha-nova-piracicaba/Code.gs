@@ -1,5 +1,5 @@
 // Cole este arquivo inteiro em Extensões > Apps Script, na planilha de destino.
-const SPREADSHEET_ID = '1HlyEQP3DLqKy9Jo3Qwz8MlWmRPSS3SAd0dmJSc_YsYI';
+const SPREADSHEET_ID = '1sycaSUjqtHIbuQFXejQOj_CiSs67GHOH_-AlFC1f-jg';
 const SHEET_ID = 0;
 const HEADERS = ['Data da inscrição','Nome completo','Idade','Celular com DDD','Comparece à seletiva?','Cidade da seletiva','ID da inscrição','Página de inscrição'];
 
