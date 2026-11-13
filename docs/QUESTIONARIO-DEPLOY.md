@@ -15,3 +15,7 @@ A variável foi configurada pela agência e a página principal foi publicada pe
 O rastreamento preparado no novo questionário é pelo navegador. A função CAPI antiga continua disponível para as páginas que já a utilizavam; não foi conectada ao novo formulário nesta alteração.
 
 A idade é obrigatória na página principal de Piracicaba, conforme a nova instrução do usuário. O endpoint da Netlify rejeita idade vazia, mas aceita 52 anos. Jundiaí e variantes não mudam.
+
+## Promoção da versão em tela única
+
+Após aprovação do link de teste e pedido explícito de deploy, a página principal passa a usar o mesmo painel de `/tela-unica/`: sem progresso visual, título ampliado e 45 anos destacado. Mantém pergunta, campo e ações na área visível, idade obrigatória e a API existente. Jundiaí permanece intacta.
