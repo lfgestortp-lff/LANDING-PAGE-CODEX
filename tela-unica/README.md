@@ -13,3 +13,7 @@ Só fazer deploy após pedido explícito do usuário. Manter [skip netlify] nos 
 ## Distribuição vertical
 
 Pergunta e instrução formam um bloco, seguido pelo campo e pelas ações, com o espaço livre distribuído igualmente entre os três. O botão deixa de ficar preso ao rodapé com uma área vazia desproporcional. Mensagens de erro e área de teclado reduzida recebem espaçamento compacto. A nota de apoio reserva espaço inferior para não ficar colada ao rodapé.
+
+## Cabeçalho sem progresso
+
+Prévia pendente de publicação: remove a barra, a contagem de perguntas e a porcentagem da interface. Mantém os eventos internos do funil. Aumenta o título e destaca 45 anos em uma faixa arredondada. Testes repetidos nos quatro tamanhos anteriores, incluindo erros e teclado simulado, sem rolagem para responder. A página principal permanece intacta.
